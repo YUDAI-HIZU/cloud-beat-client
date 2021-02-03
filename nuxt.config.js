@@ -40,7 +40,8 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+    '@nuxtjs/apollo'
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -49,4 +50,9 @@ export default {
   env: {
     STAGE: process.env.STAGE
   },
+  apollo: {
+    clientConfigs: {
+      default: '~/apollo/client-configs/default.ts'
+    }
+  }
 }

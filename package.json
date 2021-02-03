@@ -10,9 +10,13 @@
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^2.0.1",
+    "@nuxtjs/apollo": "^4.0.1-rc.5",
     "@nuxtjs/composition-api": "^0.19.0",
     "@nuxtjs/dotenv": "^1.4.1",
+    "@nuxtjs/firebase": "^7.4.1",
     "core-js": "^3.8.3",
+    "firebase": "^8.2.5",
+    "graphql-tag": "^2.11.0",
     "nuxt": "^2.14.12"
   },
   "devDependencies": {
