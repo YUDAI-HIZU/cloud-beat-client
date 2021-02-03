@@ -30,7 +30,11 @@
 <script lang="ts">
 import Vue from 'vue'
 
-export default Vue.extend({})
+export default Vue.extend({
+  created() {
+    console.log(process.env.STAGE)
+  }
+})
 </script>
 
 <style>
