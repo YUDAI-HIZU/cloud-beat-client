@@ -11,11 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: checkout
-        uses: actions/checkout@v2
+      uses: actions/checkout@v2
     - name: setup nodejs
-        uses: actions/setup-node@v1
-        with:
-          node-version: '14.0.0'
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14.0.0'
     - name: build
       run: |
           yarn install
