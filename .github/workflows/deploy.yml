@@ -9,6 +9,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      STAGE: github
     steps:
     - name: checkout
       uses: actions/checkout@v2
@@ -26,4 +28,3 @@ jobs:
         args: deploy
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        STAGE: github
