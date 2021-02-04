@@ -2,7 +2,7 @@ import  Firebase from "firebase/app"
 import "firebase/auth"
 
 const config = {
-  appId: process.env.FIREBASE_APP_ID,
+  appId: 'AIzaSyCQ35LnhgTIB9qJAZvIjVYyvPtU_WImr5A',
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: `${process.env.FIREBASE_PROJECT_ID}.firebaseapp.com`,
   storageBucket: `${process.env.FIREBASE_PROJECT_ID}.appspot.com`,
