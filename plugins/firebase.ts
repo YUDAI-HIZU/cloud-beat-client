@@ -11,6 +11,6 @@ const config = {
   projectId: process.env.FIREBASE_PROJECT_ID,
 }
 
-const firebase: Firebase.app.App = Firebase.apps.length ? Firebase.app() : Firebase.initializeApp(config)
+const firebase: Firebase.app.App = Firebase.initializeApp(config)
 
 export default firebase
