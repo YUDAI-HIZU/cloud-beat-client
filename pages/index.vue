@@ -32,8 +32,5 @@ export default Vue.extend({
       }
     `
   },
-  created() {
-    console.log(process.env.STAGE)
-  }
 })
 </script>
