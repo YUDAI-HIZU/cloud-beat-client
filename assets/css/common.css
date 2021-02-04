@@ -1,0 +1,41 @@
+@charset "UTF-8";
+
+@media screen and (max-width: 499px) {
+  .pc {
+    display: none;
+  }
+  .mobile {
+    display: block;
+  }
+  .content-img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media screen and (min-width: 500px) and (max-width: 999px) {
+  /* 画面サイズ 500pxから999pxまで適用 */
+  .pc {
+    display: none;
+  }
+  .mobile {
+    display: block;
+  }
+  .content-img {
+    width: 70%;
+    height: auto;
+  }
+}
+@media screen and (min-width:1000px) {
+  /* 画面サイズ 1000px以上から適用 */
+  .pc {
+    display: block;
+  }
+  .mobile {
+    display: none;
+  }
+  .content-img {
+    width: 70%;
+    height: auto;
+  }
+}

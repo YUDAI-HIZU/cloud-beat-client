@@ -8,7 +8,7 @@ export default {
   head: {
     title: 'app',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'ja'
     },
     meta: [
       { charset: 'utf-8' },
@@ -22,10 +22,13 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '~/assets/css/reset.css',
+    '~/assets/css/common.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/firebase',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -35,7 +38,8 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
-    '@nuxtjs/composition-api'
+    '@nuxtjs/composition-api',
+    '@nuxtjs/vuetify',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -54,5 +58,23 @@ export default {
     clientConfigs: {
       default: '~/apollo/client-configs/default.ts'
     }
-  }
+  },
+  vuetify: {
+    theme: {
+      dark: true,
+      themes: {
+        dark: {
+          primary: '#2db1bb',
+          secondary: '#2db1bb',
+          accent: '#17a9da',
+          grayLine: '#d8e1e7',
+          grayBackground: '#b3bec6',
+          background: '#000',
+          gray: '#b3bec6',
+          important: '#f1418c',
+          red: '#ff0000'
+        }
+      }
+    }
+  },
 }

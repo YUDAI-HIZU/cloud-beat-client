@@ -1,7 +1,10 @@
 <template>
-  <div>
-    <Nuxt />
-  </div>
+  <v-app>
+    <app-header />
+    <v-container style="margin-top: 100px;">
+      <Nuxt />
+    </v-container>
+  </v-app>
 </template>
 
 <style>
