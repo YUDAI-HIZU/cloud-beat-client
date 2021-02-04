@@ -11,6 +11,12 @@ const config = {
   measurementId: process.env.FIREBASE_MEASUREMENT_ID
 }
 
+console.log(process.env.FIREBASE_API_KEY)
+console.log(process.env.FIREBASE_PROJECT_ID)
+console.log(process.env.FIREBASE_SEND_ID)
+console.log(process.env.FIREBASE_APP_ID)
+console.log(process.env.FIREBASE_MEASUREMENT_ID)
+
 const firebase: Firebase.app.App = Firebase.initializeApp(config)
 
 export default firebase
