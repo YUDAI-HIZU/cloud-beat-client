@@ -11,6 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       STAGE: github
+      FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+      FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+      FIREBASE_SEND_ID: ${{ secrets.FIREBASE_SEND_ID }}
+      FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
     steps:
     - name: checkout
       uses: actions/checkout@v2
