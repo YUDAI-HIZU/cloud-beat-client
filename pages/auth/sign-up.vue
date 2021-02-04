@@ -1,0 +1,110 @@
+<template>
+  <v-card class="pb-5 mx-auto" max-width="500px">
+    <v-card-text>
+      <h2 class="text-center title font-weight-bold">新規登録</h2>
+    </v-card-text>
+    <v-divider class="mx-4"></v-divider>
+    <v-card-text>
+      <v-text-field
+        filled
+        label="ユーザー名"
+      ></v-text-field>
+      <v-text-field
+        filled
+        label="メールアドレス"
+        v-model="state.email"
+      ></v-text-field>
+      <v-text-field
+        filled
+        label="パスワード"
+        v-model="state.password"
+      ></v-text-field>
+      <v-text-field
+        filled
+        label="パスワード確認"
+      ></v-text-field>
+      <v-checkbox
+        v-model="state.agreement"
+        value="1"
+        type="checkbox"
+      >
+        <template class="text-box" v-slot:label>
+          <nuxt-link class="small-text" to="#">利用規約</nuxt-link>
+          <span class="small-text">と</span>
+          <nuxt-link class="small-text" to="#">プライバシーポリシー</nuxt-link>
+          <span class="small-text">に同意する</span>
+        </template>
+      </v-checkbox>
+    </v-card-text>
+    <v-card-actions class="px-5">
+      <v-btn
+        class="text-capitalize"
+        width="100%"
+        color="secondary"
+        large
+        @click="onClickSignUp"
+      >
+        Sign Up
+      </v-btn>
+    </v-card-actions>
+    <v-divider class="mx-4 my-4"></v-divider>
+    <v-card-actions class="px-5 my-2">
+      <v-btn class="font-weight-bold text-capitalize" color="#55acee" width="100%" large dark>
+        <v-icon right dark style="position: absolute; left: 0;">mdi-twitter</v-icon>
+        Twitter
+      </v-btn>
+    </v-card-actions>
+    <v-card-actions class="px-5 my-2">
+      <v-btn class="font-weight-bold text-capitalize" color="#3b5998" width="100%" large dark>
+        <v-icon right dark style="position: absolute; left: 0;">mdi-facebook</v-icon>
+        Facebook
+      </v-btn>
+    </v-card-actions>
+    <v-card-actions class="px-5 my-2">
+      <v-btn class="font-weight-bold text-capitalize" color="white" width="100%" large style="color: black;">
+        <img src="~assets/images/socials/google.png" alt="google-logo" height="20" width="20" style="position: absolute; left: 5px;">
+        Sign up with Google
+      </v-btn>
+    </v-card-actions>
+    <v-card-actions class="px-5 my-2">
+      <v-btn class="font-weight-bold" width="100%" color="primary" large text to="/auth/sign-in">
+        既にアカウントをお持ちの方はこちら
+      </v-btn>
+    </v-card-actions>
+  </v-card>
+</template>
+
+<script lang="ts">
+import { defineComponent, reactive, useContext } from '@nuxtjs/composition-api'
+import firebase from '~/plugins/firebase'
+import { SignUp } from '~/types/auth'
+
+export default defineComponent({
+  setup() {
+    const { app } = useContext()
+    const state = reactive<SignUp>({
+      name: "",
+      email: "",
+      password: "",
+      passwordConfirm: "",
+      agreement: null,
+    })
+    const onClickSignUp = () => {
+      console.log(state.email)
+      console.log(state.password)
+      firebase.auth().createUserWithEmailAndPassword(state.email, state.password)
+      .then((response: any) => {
+        console.log(response)
+      })
+      .catch((error: any) => {
+        console.error(error)
+      })
+    }
+    return {
+      state,
+      onClickSignUp
+    }
+  }
+})
+
+</script>
