@@ -5,3 +5,8 @@ export type SignUp = {
   passwordConfirm: string,
   agreement: boolean | null
 }
+
+export type SignIn = {
+  email: string,
+  password: string
+}

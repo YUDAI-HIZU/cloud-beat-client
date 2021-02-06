@@ -44,7 +44,7 @@
         large
         @click="onClickSignUp"
       >
-        Sign Up
+        SignUp
       </v-btn>
     </v-card-actions>
     <v-divider class="mx-4 my-4"></v-divider>
@@ -76,7 +76,6 @@
 
 <script lang="ts">
 import { defineComponent, reactive, useContext } from '@nuxtjs/composition-api'
-import firebase from '~/plugins/firebase'
 import { SignUp } from '~/types/auth'
 
 export default defineComponent({
@@ -84,21 +83,13 @@ export default defineComponent({
     const { app } = useContext()
     const state = reactive<SignUp>({
       name: "",
-      email: "",
-      password: "",
+      email: "hizukayudai@gmail.com",
+      password: "11111111",
       passwordConfirm: "",
       agreement: null,
     })
     const onClickSignUp = () => {
-      console.log(state.email)
-      console.log(state.password)
-      firebase.auth().createUserWithEmailAndPassword(state.email, state.password)
-      .then((response: any) => {
-        console.log(response)
-      })
-      .catch((error: any) => {
-        console.error(error)
-      })
+      app.$auth.signIn(state.email, state.password)
     }
     return {
       state,

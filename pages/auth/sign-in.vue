@@ -1,9 +1,87 @@
 <template>
-  <p>sign in</p>
+  <v-card class="pb-5 mx-auto" max-width="500px">
+    <v-card-text>
+      <h2 class="text-center title font-weight-bold">ログイン</h2>
+    </v-card-text>
+    <v-divider class="mx-4"></v-divider>
+    <v-card-text>
+      <v-text-field
+        filled
+        label="メールアドレス"
+        v-model="state.email"
+      ></v-text-field>
+      <v-text-field
+        filled
+        label="パスワード"
+        v-model="state.password"
+      ></v-text-field>
+    </v-card-text>
+    <v-card-actions class="px-5">
+      <v-btn
+        class="text-capitalize"
+        width="100%"
+        color="secondary"
+        large
+        @click="onClickSignIn"
+      >
+        login
+      </v-btn>
+    </v-card-actions>
+    <v-divider class="mx-4 my-4"></v-divider>
+    <v-card-actions class="px-5 my-2">
+      <v-btn class="font-weight-bold text-capitalize" color="#55acee" width="100%" large dark>
+        <v-icon right dark style="position: absolute; left: 0;">mdi-twitter</v-icon>
+        Twitter
+      </v-btn>
+    </v-card-actions>
+    <v-card-actions class="px-5 my-2">
+      <v-btn class="font-weight-bold text-capitalize" color="#3b5998" width="100%" large dark>
+        <v-icon right dark style="position: absolute; left: 0;">mdi-facebook</v-icon>
+        Facebook
+      </v-btn>
+    </v-card-actions>
+    <v-card-actions class="px-5 my-2">
+      <v-btn @click="getToken" class="font-weight-bold text-capitalize" color="white" width="100%" large style="color: black;">
+        <img src="~assets/images/socials/google.png" alt="google-logo" height="20" width="20" style="position: absolute; left: 5px;">
+        Sign in with Google
+      </v-btn>
+    </v-card-actions>
+    <v-card-actions class="px-5 my-2">
+      <v-btn class="font-weight-bold" width="100%" color="primary" large text to="/auth/password">
+        パスワードを忘れた方はこちら
+      </v-btn>
+    </v-card-actions>
+    <v-card-actions class="px-5 my-2">
+      <v-btn class="font-weight-bold" width="100%" color="primary" large text to="/auth/sign-up">
+        新規登録はこちら
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent, reactive, useContext } from '@nuxtjs/composition-api'
+import { SignIn } from '~/types/auth'
 
-}
+export default defineComponent({
+  setup() {
+    const { app } = useContext()
+    const state = reactive<SignIn>({
+      email: "hizukayudai@gmail.com",
+      password: "11111111"
+    })
+    const onClickSignIn = () => {
+      app.$auth.signIn(state.email, state.password)
+    }
+    const getToken = () => {
+      const token = app.$auth.token
+      console.log(token)
+    }
+    return {
+      state,
+      onClickSignIn,
+      getToken
+    }
+  }
+})
 </script>
