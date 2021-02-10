@@ -16,9 +16,9 @@ if (!firebase.apps.length) {
 }
 
 type State = {
-  user: Firebase.User | null
   idToken: string | null | undefined
 }
+
 class AuthComponent {
   private readonly ctx: Context
   private readonly state: State
@@ -26,7 +26,7 @@ class AuthComponent {
 
   constructor(ctx: Context) {
     this.ctx = ctx
-    this.state = Vue.observable({ idToken: null, user: null } as State)
+    this.state = Vue.observable({ idToken: null } as State)
   }
   get idToken() {
     if (this.state.idToken) {
@@ -37,32 +37,13 @@ class AuthComponent {
   }
 
   initFromCookie() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        console.log('ログイン済み')
-        if (user.emailVerified) {
-          user.getIdToken()
-            .then(idToken => {
-              this.state.user = user
-              this.state.idToken = idToken
-            })
-            .catch(error => {
-              console.error(error)
-            })
-        }
-      }
-    })
     const idToken = this.ctx.app.$cookies.get(this.cookieName)
     this.state.idToken = idToken
   }
 
   async signUp(email: string, pasword: string) {
     const response = await firebase.auth().createUserWithEmailAndPassword(email, pasword)
-    await response.user?.sendEmailVerification({
-      url: `${process.env.BASE_URL}/auth/sign-in`,
-      handleCodeInApp: false,
-    })
-    this.state.user = response.user
+    await this.sendEmailVerification()
   }
 
   async signIn(email: string, password: string) {
@@ -70,7 +51,6 @@ class AuthComponent {
     if(response.user?.emailVerified) {
       const idToken = await response.user?.getIdToken()
       this.ctx.app.$cookies.set(this.cookieName, idToken, { path: '/', httpOnly: false })
-      this.state.user = response.user
       this.state.idToken = idToken
     }
   }
@@ -78,13 +58,17 @@ class AuthComponent {
   async signOut() {
     await firebase.auth().signOut()
     this.ctx.app.$cookies.remove(this.cookieName)
-    this.state.user = null
     this.state.idToken = ""
   }
 
-  async authMiddleware() {
+  async sendEmailVerification() {
     firebase.auth().onAuthStateChanged(user => {
-      return user
+      if (user) {
+        user.sendEmailVerification({
+          url: `${process.env.BASE_URL}/auth/sign-in`,
+          handleCodeInApp: false,
+        })
+      }
     })
   }
 }

@@ -91,6 +91,7 @@ export default defineComponent({
     const onClickSignUp = async () => {
       try {
         await app.$auth.signUp(state.email, state.password)
+        ctx.root.$router.push('/auth/send-email')
       } catch (error) {
         console.error(error)
       }
