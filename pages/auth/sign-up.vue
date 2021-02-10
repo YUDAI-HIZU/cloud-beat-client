@@ -79,7 +79,7 @@ import { defineComponent, reactive, useContext } from '@nuxtjs/composition-api'
 import { SignUp } from '~/types/auth'
 
 export default defineComponent({
-  setup() {
+  setup(_, ctx) {
     const { app } = useContext()
     const state = reactive<SignUp>({
       name: "",
@@ -88,8 +88,12 @@ export default defineComponent({
       passwordConfirm: "",
       agreement: null,
     })
-    const onClickSignUp = () => {
-      app.$auth.signIn(state.email, state.password)
+    const onClickSignUp = async () => {
+      try {
+        await app.$auth.signUp(state.email, state.password)
+      } catch (error) {
+        console.error(error)
+      }
     }
     return {
       state,

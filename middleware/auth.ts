@@ -1,8 +1,7 @@
-import { Middleware, Context } from '@nuxt/types'
-import  Firebase from 'firebase/app'
+import { defineNuxtMiddleware} from '@nuxtjs/composition-api'
 
-const authMiddleware: Middleware = (ctx: Context) => {
-  ctx.app.$auth.onAuthStateChanged((user: Firebase.User) => {
+export default defineNuxtMiddleware((ctx) => {
+  ctx.app.$auth.onAuthStateChanged((user: any) => {
     if (user) {
       if (ctx.route.path == '/auth/sign-in' || ctx.route.path == '/auth/sign-up') {
         ctx.redirect('/')
@@ -11,6 +10,4 @@ const authMiddleware: Middleware = (ctx: Context) => {
       ctx.redirect('/auth/sign-in')
     }
   })
-}
-
-export default authMiddleware
+})

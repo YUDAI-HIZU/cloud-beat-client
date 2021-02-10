@@ -41,7 +41,7 @@
       </v-btn>
     </v-card-actions>
     <v-card-actions class="px-5 my-2">
-      <v-btn @click="getToken" class="font-weight-bold text-capitalize" color="white" width="100%" large style="color: black;">
+      <v-btn class="font-weight-bold text-capitalize" color="white" width="100%" large style="color: black;">
         <img src="~assets/images/socials/google.png" alt="google-logo" height="20" width="20" style="position: absolute; left: 5px;">
         Sign in with Google
       </v-btn>
@@ -64,24 +64,25 @@ import { defineComponent, reactive, useContext } from '@nuxtjs/composition-api'
 import { SignIn } from '~/types/auth'
 
 export default defineComponent({
-  setup() {
+  setup(_, ctx) {
     const { app } = useContext()
     const state = reactive<SignIn>({
       email: "hizukayudai@gmail.com",
       password: "11111111"
     })
-    const onClickSignIn = () => {
-      app.$auth.signIn(state.email, state.password)
-    }
-    const getToken = () => {
-      const token = app.$auth.token
-      console.log(token)
+    const onClickSignIn = async () => {
+      try {
+        await app.$auth.signIn(state.email, state.password)
+        ctx.root.$router.push('/')
+      } catch (error) {
+        console.error(error)
+      }
     }
     return {
       state,
-      onClickSignIn,
-      getToken
+      onClickSignIn
     }
   }
 })
 </script>
+

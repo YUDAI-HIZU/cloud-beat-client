@@ -8,7 +8,7 @@ export default (ctx: Context) => {
       graphQLErrors.forEach((err) => {
         if (err.extensions) {
           if (err.extensions.status === 401) {
-            ctx.redirect('/sign-in')
+            ctx.redirect('/auth/sign-in')
           }
         }
       })
@@ -16,7 +16,7 @@ export default (ctx: Context) => {
   })
   return {
     httpEndpoint: `http://localhost:8080/query`,
-    getAuth: () => `Bearer ${ctx.app.$auth.token}`,
+    getAuth: () => `Bearer ${ctx.app.$auth.idToken}`,
     link: errorHandler
   }
 }
