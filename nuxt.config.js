@@ -1,12 +1,17 @@
 require('dotenv').config()
 
+let baseUrl = 'http://localhost:3000'
+if (process.env.NODE_ENV === 'production') {
+  baseUrl = 'https://cloud-beat-pro.web.app'
+}
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'app',
+    title: 'Cloud Beat',
     htmlAttrs: {
       lang: 'ja'
     },
@@ -28,8 +33,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/firebase',
-    '~/plugins/auth'
+    '~/plugins/firebase'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -45,6 +49,7 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    'cookie-universal-nuxt',
     '@nuxtjs/dotenv',
     '@nuxtjs/apollo'
   ],
@@ -52,7 +57,14 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },
+
+  generate: {
+    // choose to suit your project
+    interval: 2000,
+  },
+
   env: {
+    BASE_URL: baseUrl,
     FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
     FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
     FIREBASE_SEND_ID: process.env.FIREBASE_SEND_ID,
@@ -61,7 +73,7 @@ export default {
   },
   apollo: {
     clientConfigs: {
-      default: '~/apollo/client-configs/default.ts'
+      default: '~/apollo/client-configs/default.ts',
     }
   },
   vuetify: {
