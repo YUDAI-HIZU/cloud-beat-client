@@ -8,6 +8,7 @@
       <v-text-field
         filled
         label="ユーザー名"
+        v-model="state.displayName"
       ></v-text-field>
       <v-text-field
         filled
@@ -82,7 +83,7 @@ export default defineComponent({
   setup(_, ctx) {
     const { app } = useContext()
     const state = reactive<SignUp>({
-      name: "",
+      displayName: "T-REX",
       email: "hizukayudai@gmail.com",
       password: "11111111",
       passwordConfirm: "",
@@ -90,7 +91,7 @@ export default defineComponent({
     })
     const onClickSignUp = async () => {
       try {
-        await app.$auth.signUp(state.email, state.password)
+        await app.$auth.signUp(state.email, state.password, state.displayName)
         ctx.root.$router.push('/auth/send-email')
       } catch (error) {
         console.error(error)
