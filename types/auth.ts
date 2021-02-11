@@ -1,5 +1,5 @@
 export type SignUp = {
-  name: string,
+  displayName: string,
   email: string,
   password: string,
   passwordConfirm: string,

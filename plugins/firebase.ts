@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import { Plugin, Context } from '@nuxt/types'
 import firebase from 'firebase'
-import Firebase from 'firebase/app'
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
@@ -41,14 +40,17 @@ class AuthComponent {
     this.state.idToken = idToken
   }
 
-  async signUp(email: string, pasword: string) {
+  async signUp(email: string, pasword: string, displayName: string) {
     const response = await firebase.auth().createUserWithEmailAndPassword(email, pasword)
+    const idToken = await response.user?.getIdToken()
+    const res = await this.ctx.app.$authRepository.signUp(displayName, idToken)
+    console.log(res, '---------- Sign-up ----------')
     await this.sendEmailVerification()
   }
 
   async signIn(email: string, password: string) {
     const response = await firebase.auth().signInWithEmailAndPassword(email, password)
-    if(response.user?.emailVerified) {
+    if (response.user?.emailVerified) {
       const idToken = await response.user?.getIdToken()
       this.ctx.app.$cookies.set(this.cookieName, idToken, { path: '/', httpOnly: false })
       this.state.idToken = idToken

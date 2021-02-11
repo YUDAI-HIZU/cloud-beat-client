@@ -1,0 +1,7 @@
+overwrite: true
+schema: "http://localhost:8080/query"
+generates:
+  apollo/model/generated.ts:
+    plugins:
+      - "typescript"
+      - typescript-operations
