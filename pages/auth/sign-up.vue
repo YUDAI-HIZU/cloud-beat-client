@@ -50,19 +50,40 @@
     </v-card-actions>
     <v-divider class="mx-4 my-4"></v-divider>
     <v-card-actions class="px-5 my-2">
-      <v-btn class="font-weight-bold text-capitalize" color="#55acee" width="100%" large dark>
+      <v-btn
+        class="font-weight-bold text-capitalize"
+        color="#55acee"
+        width="100%"
+        large
+        dark
+        @click="signUpWithProvider('twitter')"
+      >
         <v-icon right dark style="position: absolute; left: 0;">mdi-twitter</v-icon>
         Twitter
       </v-btn>
     </v-card-actions>
     <v-card-actions class="px-5 my-2">
-      <v-btn class="font-weight-bold text-capitalize" color="#3b5998" width="100%" large dark>
+      <v-btn
+        class="font-weight-bold text-capitalize"
+        color="#3b5998"
+        width="100%"
+        large
+        dark
+        @click="signUpWithProvider('facebook')"
+      >
         <v-icon right dark style="position: absolute; left: 0;">mdi-facebook</v-icon>
         Facebook
       </v-btn>
     </v-card-actions>
     <v-card-actions class="px-5 my-2">
-      <v-btn class="font-weight-bold text-capitalize" color="white" width="100%" large style="color: black;">
+      <v-btn
+        class="font-weight-bold text-capitalize"
+        color="white"
+        width="100%"
+        large
+        style="color: black;"
+        @click="signUpWithProvider('google')"
+      >
         <img src="~assets/images/socials/google.png" alt="google-logo" height="20" width="20" style="position: absolute; left: 5px;">
         Sign up with Google
       </v-btn>
@@ -83,9 +104,9 @@ export default defineComponent({
   setup(_, ctx) {
     const { app } = useContext()
     const state = reactive<SignUp>({
-      displayName: "T-REX",
-      email: "hizukayudai@gmail.com",
-      password: "11111111",
+      displayName: "",
+      email: "",
+      password: "",
       passwordConfirm: "",
       agreement: null,
     })
@@ -97,9 +118,18 @@ export default defineComponent({
         console.error(error)
       }
     }
+    const signUpWithProvider = async (providerName: string) => {
+      try {
+        await app.$auth.signInWithProvider(providerName)
+        ctx.root.$router.push('/')
+      } catch(error) {
+        console.error(error)
+      }
+    }
     return {
       state,
-      onClickSignUp
+      onClickSignUp,
+      signUpWithProvider
     }
   }
 })

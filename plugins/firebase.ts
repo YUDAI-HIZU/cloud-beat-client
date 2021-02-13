@@ -42,10 +42,26 @@ class AuthComponent {
 
   async signUp(email: string, pasword: string, displayName: string) {
     const response = await firebase.auth().createUserWithEmailAndPassword(email, pasword)
-    const idToken = await response.user?.getIdToken()
-    const res = await this.ctx.app.$authRepository.signUp(displayName, idToken)
-    console.log(res, '---------- Sign-up ----------')
-    await this.sendEmailVerification()
+    if (response.user) {
+      const uid = response.user.uid
+      await this.ctx.app.$userRepository.createUser({ displayName, uid })
+      await this.sendEmailVerification()
+    }
+  }
+
+  async signInWithProvider(providerName: string) {
+    const provider = this.genProvider(providerName)
+    if (provider) {
+      const response = await firebase.auth().signInWithPopup(provider)
+      if (response.additionalUserInfo?.isNewUser) {
+        const uid = response.user?.uid
+        const displayName = response.user?.displayName
+        await this.ctx.app.$userRepository.createUser({ displayName, uid })
+      }
+      const idToken = await response.user?.getIdToken()
+      this.ctx.app.$cookies.set(this.cookieName, idToken, { path: '/', httpOnly: false })
+      this.state.idToken = idToken
+    }
   }
 
   async signIn(email: string, password: string) {
@@ -61,6 +77,17 @@ class AuthComponent {
     await firebase.auth().signOut()
     this.ctx.app.$cookies.remove(this.cookieName)
     this.state.idToken = ""
+  }
+
+  genProvider(providerName: String) {
+    switch (providerName) {
+      case 'google':
+        return new firebase.auth.GoogleAuthProvider()
+      case 'twitter':
+        return new firebase.auth.TwitterAuthProvider()
+      case 'facebook':
+        return new firebase.auth.FacebookAuthProvider()
+    }
   }
 
   async sendEmailVerification() {
