@@ -9,13 +9,41 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Time: any;
   Upload: any;
   Email: any;
-  Time: any;
 };
 
 
 
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  createUser: User;
+  updateUser: User;
+};
+
+
+export type MutationCreateUserArgs = {
+  input: CreateUserInput;
+};
+
+
+export type MutationUpdateUserArgs = {
+  input: UpdateUserInput;
+};
+
+
+export type User = {
+  __typename?: 'User';
+  id: Scalars['ID'];
+  uid: Scalars['String'];
+  displayName: Scalars['String'];
+  webUrl?: Maybe<Scalars['String']>;
+  introduction?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['Time']>;
+  updatedAt?: Maybe<Scalars['Time']>;
+};
 
 export type Query = {
   __typename?: 'Query';
@@ -28,27 +56,13 @@ export type QueryUserArgs = {
   id: Scalars['ID'];
 };
 
-export type Mutation = {
-  __typename?: 'Mutation';
-  signUp?: Maybe<Scalars['Boolean']>;
+export type UpdateUserInput = {
+  displayName?: Maybe<Scalars['String']>;
+  webUrl?: Maybe<Scalars['String']>;
+  introduction?: Maybe<Scalars['String']>;
 };
 
-
-export type MutationSignUpArgs = {
-  input: SignUpInput;
-};
-
-export type User = {
-  __typename?: 'User';
-  id: Scalars['ID'];
-  uid: Scalars['String'];
-  displayName: Scalars['String'];
-  createdAt: Scalars['Time'];
-  updatedAt: Scalars['Time'];
-};
-
-
-export type SignUpInput = {
+export type CreateUserInput = {
   displayName: Scalars['String'];
   uid: Scalars['String'];
 };

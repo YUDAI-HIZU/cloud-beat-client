@@ -12,11 +12,13 @@ export class UserRepository {
   async getUser(variables: { id: string }): Promise<User> {
     const response = await this.client.query({
       query: gql`
-        mutation user($id: String!) {
+        query user($id: String!) {
           user(id: $id) {
             id
             uid
             displayName
+            webUrl
+            introduction
             createdAt
             updatedAt
           }
@@ -30,16 +32,61 @@ export class UserRepository {
   async currentUser(): Promise<User> {
     const response = await this.client.query({
       query: gql`
-        mutation currentUser($id: String!) {
+        query currentUser {
           currentUser {
             id
             uid
             displayName
+            webUrl
+            introduction
             createdAt
             updatedAt
           }
         }
       `
+    })
+    return response.data.currentUser
+  }
+
+  async createUser(variables: { displayName: string, uid: string }): Promise<User> {
+    const response = await this.client.mutate({
+      mutation: gql`
+        mutation createUser($displayName: String!, $uid: String!) {
+          createUser(input: {
+            displayName: $displayName
+            uid: $uid
+          }) {
+            uid
+            displayName
+          }
+        }
+      `,
+      variables: {
+        ...variables
+      }
+    })
+    return response.data
+  }
+
+  async updateUser(variables: { displayName: string, webUrl: String, introduction: String }): Promise<User> {
+    const response = await this.client.mutate({
+      mutation: gql`
+        mutation updateUser($displayName: String, $webUrl: String, $introduction: String) {
+          updateUser(input: {
+            displayName: $displayName
+            webUrl: $webUrl
+            introduction: $introduction
+          }) {
+            uid
+            displayName
+            webUrl
+            introduction
+          }
+        }
+      `,
+      variables: {
+        ...variables
+      }
     })
     return response.data
   }
