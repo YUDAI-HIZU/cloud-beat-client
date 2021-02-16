@@ -68,14 +68,15 @@ export class UserRepository {
     return response.data
   }
 
-  async updateUser(variables: { displayName: string, webUrl: String, introduction: String }): Promise<User> {
+  async updateUser(variables: { displayName: string, webUrl: String, introduction: String, iconImage: any }): Promise<User> {
     const response = await this.client.mutate({
       mutation: gql`
-        mutation updateUser($displayName: String, $webUrl: String, $introduction: String) {
+        mutation updateUser($displayName: String, $webUrl: String, $introduction: String, $iconImage: Upload) {
           updateUser(input: {
             displayName: $displayName
             webUrl: $webUrl
             introduction: $introduction
+            iconImage: $iconImage
           }) {
             uid
             displayName

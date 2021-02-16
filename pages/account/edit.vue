@@ -32,6 +32,11 @@
       <div class="font-weight-bold ml-8 mb-2">
         自己紹介
       </div>
+      <v-file-input
+        accept="image/*"
+        label="File input"
+        v-model="input.iconImage"
+      ></v-file-input>
       <div class="mb-2 mx-8">
         <v-textarea
           hint="255文字"
@@ -71,12 +76,18 @@ export default defineComponent({
       createdAt: "",
       updatedAt: ""
     })
+    const input = ref({
+      displayName: "test",
+      webUrl: "test",
+      introduction: "test",
+      iconImage: null,
+    })
     useAsync(async() => {
       user.value = await app.$userRepository.currentUser()
     })
     const onClickSave = async () => {
       try {
-        await app.$userRepository.updateUser(user.value)
+        await app.$userRepository.updateUser(input.value)
         ctx.root.$router.push('/account')
       } catch(error) {
         console.error(error)
@@ -84,6 +95,7 @@ export default defineComponent({
     }
     return {
       user,
+      input,
       onClickSave
     }
   }
