@@ -15,6 +15,7 @@ jobs:
       FIREBASE_SEND_ID: ${{ secrets.FIREBASE_SEND_ID }}
       FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
       FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
+      FIREBASE_VAPID_KEY: ${{ secrets.FIREBASE_VAPID_KEY }}
     steps:
     - name: checkout
       uses: actions/checkout@v2
