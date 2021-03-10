@@ -84,7 +84,7 @@
         style="color: black;"
         @click="signUpWithProvider('google')"
       >
-        <img src="~assets/images/socials/google.png" alt="google-logo" height="20" width="20" style="position: absolute; left: 5px;">
+        <img src="~assets/images/icons/google.png" alt="google-logo" height="20" width="20" style="position: absolute; left: 5px;">
         Sign up with Google
       </v-btn>
     </v-card-actions>

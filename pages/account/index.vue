@@ -1,18 +1,20 @@
 <template>
-  <v-card max-width="550" class="mx-auto">
+  <v-card max-width="900px" class="mx-auto">
     <v-img
       height="200px"
-      src="https://i.gyazo.com/e95618ed2c4ccce100d0ee6dc9260f6f.png"
+      :src="coverUrl"
+      :lazy-src="coverUrl"
     >
       <v-card-title class="white--text" style="margin-top: 100px;">
         <v-avatar size="56">
-          <img
+          <v-img
             alt="user"
-            src="~/assets/images/account.png"
-          >
+            :src="iconUrl"
+            :lazy-src="iconUrl"
+          />
         </v-avatar>
         <p class="ml-3 mt-10">
-          {{ user.displayName }}
+          <strong>{{ user.displayName }}</strong>
         </p>
       </v-card-title>
     </v-img>
@@ -47,7 +49,7 @@
       <div class="font-weight-bold mt-4 ml-8 mb-2">
         Tracks
       </div>
-      <div class="mt-4 mx-8 mb-2">
+      <div class="mt-4 mx-8 mb-2 d-flex scroller flex-nowrap">
         <template v-for="i in 10">
           <app-music-card :key="i" />
         </template>
@@ -57,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useContext, ref, useAsync } from '@nuxtjs/composition-api'
+import { defineComponent, useContext, ref, useFetch, computed } from '@nuxtjs/composition-api'
 import { Ref } from '@vue/composition-api'
 import { User } from '~/apollo/model/generated'
 
@@ -66,19 +68,28 @@ export default defineComponent({
   setup() {
     const { app } = useContext()
     const user: Ref<User> = ref({
-      id: "",
+      id:"",
       uid: "",
       displayName: "",
-      webUrl: "",
       introduction: "",
-      createdAt: "",
-      updatedAt: ""
+      webUrl: "",
+      iconUrl: "",
+      coverUrl: ""
     })
-    useAsync(async() => {
-      user.value = await app.$userRepository.currentUser()
+    useFetch(async() => {
+      try {
+        const response = await app.$userRepository.currentUser()
+        user.value = response.currentUser
+      } catch (error) {
+        console.error(error)
+      }
     })
+    const iconUrl = computed(() => user.value.iconUrl || require("~/assets/images/icons/account.png"))
+    const coverUrl = computed(() => user.value.coverUrl || "https://beiz.jp/images_P/black/black_00080.jpg")
     return {
-      user
+      user,
+      iconUrl,
+      coverUrl
     }
   }
 })
