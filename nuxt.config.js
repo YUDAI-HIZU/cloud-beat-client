@@ -11,7 +11,7 @@ const {
 
 let BASE_URL = 'http://localhost:3000'
 if (process.env.NODE_ENV === 'production') {
-  baseUrl = 'https://cloud-beat-pro.web.app'
+  BASE_URL = 'https://cloud-beat-pro.web.app'
 }
 
 export default {
