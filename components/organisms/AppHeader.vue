@@ -33,7 +33,7 @@
             >
               <v-avatar>
                 <img
-                  src="~/assets/images/account.png"
+                  src="~/assets/images/icons/account.png"
                   alt="John"
                 >
               </v-avatar>

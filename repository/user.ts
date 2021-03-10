@@ -19,8 +19,8 @@ export class UserRepository {
             displayName
             webUrl
             introduction
-            createdAt
-            updatedAt
+            iconUrl
+            coverUrl
           }
         }
       `,
@@ -39,13 +39,15 @@ export class UserRepository {
             displayName
             webUrl
             introduction
+            iconUrl
+            coverUrl
             createdAt
             updatedAt
           }
         }
       `
     })
-    return response.data.currentUser
+    return response.data
   }
 
   async createUser(variables: { displayName: string, uid: string }): Promise<User> {
@@ -56,6 +58,7 @@ export class UserRepository {
             displayName: $displayName
             uid: $uid
           }) {
+            id
             uid
             displayName
           }
@@ -68,20 +71,24 @@ export class UserRepository {
     return response.data
   }
 
-  async updateUser(variables: { displayName: string, webUrl: String, introduction: String, iconImage: any }): Promise<User> {
+  async updateUser(variables: { displayName: string, webUrl: String, introduction: String, iconImage: File, coverImage: File }): Promise<User> {
     const response = await this.client.mutate({
       mutation: gql`
-        mutation updateUser($displayName: String, $webUrl: String, $introduction: String, $iconImage: Upload) {
+        mutation updateUser($displayName: String, $webUrl: String, $introduction: String, $iconImage: Upload, $coverImage: Upload) {
           updateUser(input: {
             displayName: $displayName
             webUrl: $webUrl
             introduction: $introduction
             iconImage: $iconImage
+            coverImage: $coverImage
           }) {
+            id
             uid
             displayName
             webUrl
             introduction
+            iconUrl
+            coverUrl
           }
         }
       `,

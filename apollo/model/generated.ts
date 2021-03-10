@@ -9,20 +9,48 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Email: any;
   Upload: any;
   Time: any;
-  Email: any;
 };
 
 
-export type UpdateUserInput = {
-  displayName?: Maybe<Scalars['String']>;
-  webUrl?: Maybe<Scalars['String']>;
-  introduction?: Maybe<Scalars['String']>;
-  iconImage?: Maybe<Scalars['Upload']>;
-  coverImage?: Maybe<Scalars['Upload']>;
+
+export type DeviceToken = {
+  __typename?: 'DeviceToken';
+  id: Scalars['ID'];
+  userID: Scalars['ID'];
+  Token: Scalars['String'];
+  createdAt?: Maybe<Scalars['Time']>;
+  updatedAt?: Maybe<Scalars['Time']>;
 };
 
+export type Query = {
+  __typename?: 'Query';
+  track?: Maybe<Track>;
+  user?: Maybe<User>;
+  currentUser: User;
+};
+
+
+export type QueryTrackArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryUserArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type Track = {
+  __typename?: 'Track';
+  id: Scalars['ID'];
+  title: Scalars['String'];
+  thumbnailUrl?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['Time']>;
+  updatedAt?: Maybe<Scalars['Time']>;
+};
 
 export type User = {
   __typename?: 'User';
@@ -37,28 +65,25 @@ export type User = {
   updatedAt?: Maybe<Scalars['Time']>;
 };
 
-export type Query = {
-  __typename?: 'Query';
-  user?: Maybe<User>;
-  currentUser: User;
+export type UpdateUserInput = {
+  iconImage?: Maybe<Scalars['Upload']>;
+  coverImage?: Maybe<Scalars['Upload']>;
+  displayName?: Maybe<Scalars['String']>;
+  webUrl?: Maybe<Scalars['String']>;
+  introduction?: Maybe<Scalars['String']>;
 };
-
-
-export type QueryUserArgs = {
-  id: Scalars['ID'];
-};
-
-export type CreateUserInput = {
-  uid: Scalars['String'];
-  displayName: Scalars['String'];
-};
-
-
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createTrack: Track;
   createUser: User;
+  updateTrack: Track;
   updateUser: User;
+};
+
+
+export type MutationCreateTrackArgs = {
+  input: CreateTrackInput;
 };
 
 
@@ -67,6 +92,27 @@ export type MutationCreateUserArgs = {
 };
 
 
+export type MutationUpdateTrackArgs = {
+  input: UpdateTrackInput;
+};
+
+
 export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
+};
+
+
+export type CreateUserInput = {
+  uid: Scalars['String'];
+  displayName: Scalars['String'];
+};
+
+export type CreateTrackInput = {
+  title: Scalars['String'];
+  thumbnailImage?: Maybe<Scalars['Upload']>;
+};
+
+export type UpdateTrackInput = {
+  title: Scalars['String'];
+  thumbnailImage?: Maybe<Scalars['Upload']>;
 };

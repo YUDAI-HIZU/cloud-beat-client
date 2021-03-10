@@ -7,6 +7,7 @@
   >
     <v-img
       height="240px"
+      width="240px"
       src="https://cdn.vuetifyjs.com/images/cards/halcyon.png"
     >
       <v-card-actions class="mt-3 ml-2">
@@ -25,7 +26,7 @@
         >
           <img
             alt="user"
-            src="~/assets/images/account.png"
+            src="~/assets/images/icons/account.png"
           >
         </v-avatar>
         <p class="ml-3 mt-3 ellipsis">

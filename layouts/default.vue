@@ -3,6 +3,7 @@
     <app-header />
     <v-container style="margin-top: 100px;">
       <Nuxt />
+      <app-float-btn />
     </v-container>
   </v-app>
 </template>

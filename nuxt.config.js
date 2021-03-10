@@ -1,6 +1,15 @@
 require('dotenv').config()
 
-let baseUrl = 'http://localhost:3000'
+const {
+  FIREBASE_API_KEY,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_SEND_ID,
+  FIREBASE_APP_ID,
+  FIREBASE_MEASUREMENT_ID,
+  FIREBASE_VAPID_KEY
+} = process.env
+
+let BASE_URL = 'http://localhost:3000'
 if (process.env.NODE_ENV === 'production') {
   baseUrl = 'https://cloud-beat-pro.web.app'
 }
@@ -66,13 +75,13 @@ export default {
   },
 
   env: {
-    BASE_URL: baseUrl,
-    FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
-    FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
-    FIREBASE_SEND_ID: process.env.FIREBASE_SEND_ID,
-    FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
-    FIREBASE_MEASUREMENT_ID: process.env.FIREBASE_MEASUREMENT_ID,
-    FIREBASE_VAPID_KEY: process.env.FIREBASE_VAPID_KEY
+    BASE_URL,
+    FIREBASE_API_KEY,
+    FIREBASE_PROJECT_ID,
+    FIREBASE_SEND_ID,
+    FIREBASE_APP_ID,
+    FIREBASE_MEASUREMENT_ID,
+    FIREBASE_VAPID_KEY
   },
   apollo: {
     clientConfigs: {
