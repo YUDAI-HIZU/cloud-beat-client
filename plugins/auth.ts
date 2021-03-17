@@ -17,6 +17,7 @@ class AuthComponent {
     this.ctx = ctx
     this.state = Vue.observable({ idToken: null } as State)
   }
+
   get idToken() {
     if (this.state.idToken) {
       return this.state.idToken
@@ -68,7 +69,7 @@ class AuthComponent {
   async signOut() {
     await this.auth.signOut()
     this.ctx.app.$cookies.remove(this.cookieName)
-    this.state.idToken = ""
+    this.state.idToken = null
   }
 
   getProvider(providerName: String) {

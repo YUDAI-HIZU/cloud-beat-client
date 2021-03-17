@@ -1,6 +1,7 @@
 require('dotenv').config()
 
 const {
+  BASE_URL,
   FIREBASE_API_KEY,
   FIREBASE_PROJECT_ID,
   FIREBASE_SEND_ID,
@@ -8,11 +9,6 @@ const {
   FIREBASE_MEASUREMENT_ID,
   FIREBASE_VAPID_KEY
 } = process.env
-
-let BASE_URL = 'http://localhost:3000'
-if (process.env.NODE_ENV === 'production') {
-  BASE_URL = 'https://cloud-beat-pro.web.app'
-}
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -44,7 +40,8 @@ export default {
   plugins: [
     '~/plugins/auth',
     '~/plugins/push',
-    '~/plugins/repository.ts'
+    '~/plugins/repository.ts',
+    '~/plugins/audio.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -52,7 +49,6 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
     '@nuxtjs/composition-api',
     '@nuxtjs/vuetify',
@@ -62,7 +58,9 @@ export default {
   modules: [
     'cookie-universal-nuxt',
     '@nuxtjs/dotenv',
-    '@nuxtjs/apollo'
+    '@nuxtjs/apollo',
+    '@nuxtjs/toast',
+    'nuxt-i18n',
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -93,12 +91,12 @@ export default {
       dark: true,
       themes: {
         dark: {
-          primary: '#2db1bb',
-          secondary: '#2db1bb',
+          primary: '#a10002',
+          secondary: '#a10002',
           accent: '#17a9da',
           grayLine: '#d8e1e7',
           grayBackground: '#b3bec6',
-          background: '#000',
+          background: '#0c0c0c',
           gray: '#b3bec6',
           important: '#f1418c',
           red: '#ff0000'
@@ -106,4 +104,8 @@ export default {
       }
     }
   },
+  toast: {
+    position: 'top-center',
+    duration: 3000
+  }
 }

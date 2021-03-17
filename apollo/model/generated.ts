@@ -9,11 +9,17 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Time: any;
   Email: any;
   Upload: any;
-  Time: any;
 };
 
+
+export type UpdateTrackInput = {
+  title: Scalars['String'];
+  sound?: Maybe<Scalars['Upload']>;
+  thumbnail?: Maybe<Scalars['Upload']>;
+};
 
 
 export type DeviceToken = {
@@ -25,9 +31,35 @@ export type DeviceToken = {
   updatedAt?: Maybe<Scalars['Time']>;
 };
 
+export type User = {
+  __typename?: 'User';
+  id: Scalars['ID'];
+  uid: Scalars['String'];
+  displayName: Scalars['String'];
+  webUrl?: Maybe<Scalars['String']>;
+  twitter?: Maybe<Scalars['String']>;
+  soundCloud?: Maybe<Scalars['String']>;
+  facebook?: Maybe<Scalars['String']>;
+  youtube?: Maybe<Scalars['String']>;
+  instagram?: Maybe<Scalars['String']>;
+  introduction?: Maybe<Scalars['String']>;
+  iconUrl?: Maybe<Scalars['String']>;
+  coverUrl?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['Time']>;
+  updatedAt?: Maybe<Scalars['Time']>;
+};
+
+export type CreateTrackInput = {
+  title: Scalars['String'];
+  sound: Scalars['Upload'];
+  thumbnail?: Maybe<Scalars['Upload']>;
+};
+
+
 export type Query = {
   __typename?: 'Query';
   track?: Maybe<Track>;
+  tracks: Array<Track>;
   user?: Maybe<User>;
   currentUser: User;
 };
@@ -42,35 +74,9 @@ export type QueryUserArgs = {
   id: Scalars['ID'];
 };
 
-
-export type Track = {
-  __typename?: 'Track';
-  id: Scalars['ID'];
-  title: Scalars['String'];
-  thumbnailUrl?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Time']>;
-  updatedAt?: Maybe<Scalars['Time']>;
-};
-
-export type User = {
-  __typename?: 'User';
-  id: Scalars['ID'];
+export type CreateUserInput = {
   uid: Scalars['String'];
   displayName: Scalars['String'];
-  webUrl?: Maybe<Scalars['String']>;
-  introduction?: Maybe<Scalars['String']>;
-  iconUrl?: Maybe<Scalars['String']>;
-  coverUrl?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['Time']>;
-  updatedAt?: Maybe<Scalars['Time']>;
-};
-
-export type UpdateUserInput = {
-  iconImage?: Maybe<Scalars['Upload']>;
-  coverImage?: Maybe<Scalars['Upload']>;
-  displayName?: Maybe<Scalars['String']>;
-  webUrl?: Maybe<Scalars['String']>;
-  introduction?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -102,17 +108,27 @@ export type MutationUpdateUserArgs = {
 };
 
 
-export type CreateUserInput = {
-  uid: Scalars['String'];
-  displayName: Scalars['String'];
+export type Track = {
+  __typename?: 'Track';
+  id: Scalars['ID'];
+  title: Scalars['String'];
+  thumbnailUrl?: Maybe<Scalars['String']>;
+  soundUrl: Scalars['String'];
+  userID: Scalars['ID'];
+  user: User;
+  createdAt?: Maybe<Scalars['Time']>;
+  updatedAt?: Maybe<Scalars['Time']>;
 };
 
-export type CreateTrackInput = {
-  title: Scalars['String'];
-  thumbnailImage?: Maybe<Scalars['Upload']>;
-};
-
-export type UpdateTrackInput = {
-  title: Scalars['String'];
-  thumbnailImage?: Maybe<Scalars['Upload']>;
+export type UpdateUserInput = {
+  icon?: Maybe<Scalars['Upload']>;
+  cover?: Maybe<Scalars['Upload']>;
+  displayName?: Maybe<Scalars['String']>;
+  webUrl?: Maybe<Scalars['String']>;
+  twitter?: Maybe<Scalars['String']>;
+  soundCloud?: Maybe<Scalars['String']>;
+  facebook?: Maybe<Scalars['String']>;
+  youtube?: Maybe<Scalars['String']>;
+  instagram?: Maybe<Scalars['String']>;
+  introduction?: Maybe<Scalars['String']>;
 };

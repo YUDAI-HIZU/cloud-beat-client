@@ -1,6 +1,10 @@
 @charset "UTF-8";
 
-@media screen and (max-width: 499px) {
+#__layout .v-application--wrap {
+  background-color: #000;
+}
+
+@media screen and (max-width: 599px) {
   .pc {
     display: none;
   }
@@ -13,7 +17,7 @@
   }
 }
 
-@media screen and (min-width: 500px) and (max-width: 999px) {
+@media screen and (min-width: 600px) and (max-width: 959px) {
   /* 画面サイズ 500pxから999pxまで適用 */
   .pc {
     display: none;
@@ -21,12 +25,8 @@
   .mobile {
     display: block;
   }
-  .content-img {
-    width: 70%;
-    height: auto;
-  }
 }
-@media screen and (min-width:1000px) {
+@media screen and (min-width:960px) {
   /* 画面サイズ 1000px以上から適用 */
   .pc {
     display: block;
@@ -34,10 +34,10 @@
   .mobile {
     display: none;
   }
-  .content-img {
-    width: 70%;
-    height: auto;
-  }
+}
+
+#__layout .theme--light.v-text-field--outlined:not(.v-input--is-focused):not(.v-input--has-state) > .v-input__control > .v-input__slot fieldset {
+  color: rgba(0, 0, 0, 0) !important;
 }
 
 .scroller {

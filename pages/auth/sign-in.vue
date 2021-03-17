@@ -68,12 +68,12 @@
       </v-btn>
     </v-card-actions>
     <v-card-actions class="px-5 my-2">
-      <v-btn class="font-weight-bold" width="100%" color="primary" large text to="/auth/password">
+      <v-btn class="font-weight-bold" width="100%" large text to="/auth/password">
         パスワードを忘れた方はこちら
       </v-btn>
     </v-card-actions>
     <v-card-actions class="px-5 my-2">
-      <v-btn class="font-weight-bold" width="100%" color="primary" large text to="/auth/sign-up">
+      <v-btn class="font-weight-bold" width="100%" large text to="/auth/sign-up">
         新規登録はこちら
       </v-btn>
     </v-card-actions>
@@ -81,12 +81,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, useContext } from '@nuxtjs/composition-api'
+import { defineComponent, reactive, useContext, useRouter } from '@nuxtjs/composition-api'
 import { SignIn } from '~/types/auth'
 
 export default defineComponent({
   setup(_, ctx) {
     const { app } = useContext()
+    const router = useRouter()
     const state = reactive<SignIn>({
       email: "",
       password: ""
@@ -94,16 +95,20 @@ export default defineComponent({
     const onClickSignIn = async () => {
       try {
         await app.$auth.signIn(state.email, state.password)
-        ctx.root.$router.push('/')
+        router.push('/')
+        app.$toast.success('ログインしました')
       } catch (error) {
+        app.$toast.error(error.message)
         console.error(error)
       }
     }
     const signInWithProvider = async (providerName: string) => {
       try {
         await app.$auth.signInWithProvider(providerName)
-        ctx.root.$router.push('/')
+        app.$toast.success('ログインしました')
+        router.push('/')
       } catch(error) {
+        app.$toast.error(error.message)
         console.error(error)
       }
     }
