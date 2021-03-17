@@ -1,5 +1,5 @@
 <template>
-  <v-card max-width="550" class="mx-auto">
+  <v-card max-width="550px" class="mx-auto">
     <v-img
       height="200px"
       :src="coverUrl"
@@ -10,9 +10,9 @@
           type="file"
           ref="fileRef"
           accept="image/jpeg, image/jpg, image/png"
-          @change="selectedIcon"
+          @change="onChangeFile"
         >
-        <v-avatar @click="$refs.fileRef.click()" size="60">
+        <v-avatar @click="$refs.fileRef.click()" size="56">
           <v-img
             alt="icon"
             ref="iconRef"
@@ -47,7 +47,6 @@
         ></v-textarea>
       </div>
       <v-divider />
-      
       <div class="font-weight-bold mt-4 ml-8 mb-2">
         Webサイト
       </div>
@@ -57,61 +56,153 @@
           v-model="user.webUrl"
         ></v-text-field>
       </div>
+      <v-divider />
+      <div class="font-weight-bold mt-4 ml-8 mb-2">
+        SNS
+      </div>
+      <div class="mb-2 mx-5">
+        <v-col class="d-flex">
+          <v-btn
+            class="mr-2"
+            :color="`${user.twitter ? '#1DA1F2' : 'gray' }`"
+            small
+            dark
+            fab
+          >
+            <v-icon>mdi-twitter</v-icon>
+          </v-btn>
+          <v-text-field
+            dense
+            class="ml-2"
+            label="アカウント名"
+            outlined
+            v-model="user.twitter"
+            />
+        </v-col>
+
+        <v-col class="d-flex">
+          <v-btn
+            class="mr-2"
+            :color="`${user.soundCloud ? '#FE5000' : 'gray' }`"
+            small
+            dark
+            fab
+          >
+            <v-icon>mdi-soundcloud</v-icon>
+          </v-btn>
+          <v-text-field
+            dense
+            class="ml-2"
+            label="アカウント名"
+            outlined
+            v-model="user.soundCloud"
+            />
+        </v-col>
+
+        <v-col class="d-flex">
+          <v-btn
+            class="mr-2"
+            :color="`${user.facebook ? '#3B5998' : 'gray' }`"
+            small
+            dark
+            fab
+          >
+            <v-icon>mdi-facebook</v-icon>
+          </v-btn>
+          <v-text-field
+            dense
+            class="ml-2"
+            label="アカウント名"
+            outlined
+            v-model="user.facebook"
+            />
+        </v-col>
+
+        <v-col class="d-flex">
+          <v-btn
+            class="mr-2"
+            :color="`${user.youtube ? '#FF0000' : 'gray' }`"
+            small
+            dark
+            fab
+          >
+            <v-icon>mdi-youtube</v-icon>
+          </v-btn>
+          <v-text-field
+            dense
+            class="ml-2"
+            label="アカウント名"
+            outlined
+            v-model="user.youtube"
+            />
+        </v-col>
+
+        <v-col class="d-flex">
+          <v-btn
+            class="mr-2"
+            :color="`${user.instagram ? '#D93177' : 'gray' }`"
+            small
+            dark
+            fab
+          >
+            <v-icon>mdi-instagram</v-icon>
+          </v-btn>
+          <v-text-field
+            dense
+            class="ml-2"
+            label="アカウント名"
+            outlined
+            v-model="user.instagram"
+            />
+        </v-col>
+      </div>
     </v-card-text>
   </v-card>
 </template>
 
 <script lang="ts">
-import { defineComponent, useContext, computed, ref, useFetch } from '@nuxtjs/composition-api'
-import { Ref } from '@vue/composition-api'
-import { User, UpdateUserInput } from '~/apollo/model/generated'
+import { defineComponent, useContext, computed, ref, useRouter, useFetch } from '@nuxtjs/composition-api'
 
 export default defineComponent({
   middleware: 'auth',
   setup(_, ctx) {
     const { app } = useContext()
+    const router = useRouter()
     const fileRef = ref<HTMLInputElement>()
     const iconRef = ref<HTMLImageElement>()
-    const user: Ref<User> = ref({
+    const user = ref({
       id:"",
       uid: "",
       displayName: "",
       introduction: "",
       webUrl: "",
+      twitter: "",
+      soundCloud: "",
+      facebook: "",
+      youtube: "",
+      instagram: "",
+      icon: null as File | null,
+      cover: null as File | null,
       iconUrl: "",
       coverUrl: ""
     })
-    const input: Ref<UpdateUserInput> = ref({
-      displayName: "",
-      introduction: "",
-      webUrl: "",
-      iconImage: null,
-      coverImage: null
-    })
     useFetch(async() => {
-      try {
-        const response = await app.$userRepository.currentUser()
-        user.value = response.currentUser
-      } catch (error) {
-        console.error(error)
-      }
+      user.value = await app.$userRepository.currentUser()
     })
     const iconUrl = computed(() => user.value.iconUrl || require("~/assets/images/icons/account.png"))
     const coverUrl = computed(() => user.value.coverUrl || "https://beiz.jp/images_P/black/black_00080.jpg")
-    const selectedIcon = async (e: Event) => {
+    const onChangeFile = async (e: Event) => {
       const target = e.target as HTMLInputElement
       const files = target.files
       if (files) {
-        input.value.iconImage = files[0]
+        user.value.icon = files[0]
+        user.value.iconUrl = URL.createObjectURL(files[0])
       }
     }
     const onClickSave = async () => {
-      input.value.displayName = user.value.displayName
-      input.value.introduction = user.value.introduction
-      input.value.webUrl = user.value.webUrl
       try {
-        await app.$userRepository.updateUser(input.value)
-        ctx.root.$router.push('/account')
+        await app.$userRepository.updateUser(user.value)
+        router.push('/account')
       } catch(error) {
         console.error(error)
       }
@@ -122,7 +213,7 @@ export default defineComponent({
       user,
       iconUrl,
       coverUrl,
-      selectedIcon,
+      onChangeFile,
       onClickSave
     }
   }

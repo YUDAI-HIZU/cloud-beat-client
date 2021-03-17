@@ -9,25 +9,26 @@
     "generate": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
-    "@nuxt/typescript-runtime": "^2.0.1",
+    "@nuxt/typescript-runtime": "^2.1.0",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
-    "@nuxtjs/composition-api": "^0.19.1",
+    "@nuxtjs/composition-api": "^0.22.1",
     "@nuxtjs/dotenv": "^1.4.1",
+    "@nuxtjs/toast": "^3.3.1",
     "cookie-universal-nuxt": "^2.1.4",
-    "core-js": "^3.8.3",
-    "firebase": "^8.2.6",
+    "core-js": "^3.9.1",
+    "firebase": "^8.3.0",
     "graphql-tag": "^2.11.0",
-    "nuxt": "^2.14.12",
-    "nuxt-client-init-module": "^0.2.0",
-    "vuex-module-decorators": "^1.0.1"
+    "nuxt": "^2.15.3",
+    "nuxt-i18n": "^6.21.0",
+    "vue-audio-visual": "^2.2.2"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "1.20.1",
+    "@graphql-codegen/cli": "1.21.2",
     "@graphql-codegen/introspection": "1.18.1",
-    "@graphql-codegen/typescript": "1.21.0",
-    "@graphql-codegen/typescript-operations": "^1.17.14",
-    "@nuxt/types": "^2.14.12",
-    "@nuxt/typescript-build": "^2.0.4",
+    "@graphql-codegen/typescript": "1.21.1",
+    "@graphql-codegen/typescript-operations": "^1.17.15",
+    "@nuxt/types": "^2.15.3",
+    "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/vuetify": "^1.11.3"
   }
 }

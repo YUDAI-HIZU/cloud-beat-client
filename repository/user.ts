@@ -18,6 +18,11 @@ export class UserRepository {
             uid
             displayName
             webUrl
+            twitter
+            soundCloud
+            facebook
+            youtube
+            instagram
             introduction
             iconUrl
             coverUrl
@@ -38,6 +43,11 @@ export class UserRepository {
             uid
             displayName
             webUrl
+            twitter
+            soundCloud
+            facebook
+            youtube
+            instagram
             introduction
             iconUrl
             coverUrl
@@ -47,7 +57,7 @@ export class UserRepository {
         }
       `
     })
-    return response.data
+    return response.data.currentUser
   }
 
   async createUser(variables: { displayName: string, uid: string }): Promise<User> {
@@ -71,21 +81,53 @@ export class UserRepository {
     return response.data
   }
 
-  async updateUser(variables: { displayName: string, webUrl: String, introduction: String, iconImage: File, coverImage: File }): Promise<User> {
+  async updateUser(variables: {
+    displayName: string,
+    webUrl: String,
+    twitter: String,
+    soundCloud: String,
+    facebook: String,
+    youtube: String,
+    instagram: String,
+    introduction: String,
+    icon: File,
+    cover: File
+  }): Promise<User> {
     const response = await this.client.mutate({
       mutation: gql`
-        mutation updateUser($displayName: String, $webUrl: String, $introduction: String, $iconImage: Upload, $coverImage: Upload) {
+        mutation updateUser(
+          $displayName: String,
+          $webUrl: String,
+          $twitter: String,
+          $soundCloud: String,
+          $facebook: String,
+          $youtube: String,
+          $instagram: String,
+          $introduction: String,
+          $icon: Upload,
+          $cover: Upload
+        ) {
           updateUser(input: {
             displayName: $displayName
             webUrl: $webUrl
+            twitter: $twitter,
+            soundCloud: $soundCloud,
+            facebook: $facebook,
+            youtube: $youtube,
+            instagram: $instagram,
             introduction: $introduction
-            iconImage: $iconImage
-            coverImage: $coverImage
+            icon: $icon
+            cover: $cover
           }) {
             id
             uid
             displayName
             webUrl
+            twitter
+            soundCloud
+            facebook
+            youtube
+            instagram
             introduction
             iconUrl
             coverUrl

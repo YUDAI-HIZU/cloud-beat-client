@@ -97,12 +97,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, useContext } from '@nuxtjs/composition-api'
+import { defineComponent, reactive, useContext, useRouter } from '@nuxtjs/composition-api'
 import { SignUp } from '~/types/auth'
 
 export default defineComponent({
   setup(_, ctx) {
     const { app } = useContext()
+    const router = useRouter()
     const state = reactive<SignUp>({
       displayName: "",
       email: "",
@@ -113,7 +114,7 @@ export default defineComponent({
     const onClickSignUp = async () => {
       try {
         await app.$auth.signUp(state.email, state.password, state.displayName)
-        ctx.root.$router.push('/auth/send-email')
+        router.push('/auth/send-email')
       } catch (error) {
         console.error(error)
       }
@@ -121,7 +122,7 @@ export default defineComponent({
     const signUpWithProvider = async (providerName: string) => {
       try {
         await app.$auth.signInWithProvider(providerName)
-        ctx.root.$router.push('/')
+        router.push('/')
       } catch(error) {
         console.error(error)
       }
