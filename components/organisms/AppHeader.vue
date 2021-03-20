@@ -9,7 +9,7 @@
       <nuxt-link to="/">
         <img
           class="mt-1"
-          :src="require('~/assets/images/logo.png')"
+          :src="require('~/assets/images/logos/main.png')"
           height="60"
         />
       </nuxt-link>

@@ -35,6 +35,7 @@ export class UserRepository {
   }
 
   async currentUser(): Promise<User> {
+    console.log("get user curret ")
     const response = await this.client.query({
       query: gql`
         query currentUser {
