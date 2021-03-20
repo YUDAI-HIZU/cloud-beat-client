@@ -9,7 +9,7 @@
         class="d-flex align-center"
         height="450px"
         gradient="to top, rgba(0,0,0,0.9), rgba(0,0,0,0.2)"
-        :src="require('~/assets/images/icons/top-4.png')"
+        :src="require('~/assets/images/kvs/main.png')"
       >
         <app-top-text />
       </v-img>
@@ -23,7 +23,7 @@
         class="d-flex align-center"
         height="450px"
         gradient="to top, rgba(0,0,0,0.9), rgba(0,0,0,0.2)"
-        :src="require('~/assets/images/icons/top-2.png')"
+        :src="require('~/assets/images/kvs/sub.png')"
       >
         <app-top-text />
       </v-img>

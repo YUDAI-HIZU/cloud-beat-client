@@ -16,7 +16,7 @@
           <v-img
             alt="icon"
             ref="iconRef"
-            :src="iconUrl"
+            :src="user.iconUrl"
           />
         </v-avatar>
         <v-text-field
@@ -161,7 +161,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useContext, computed, ref, useRouter, useFetch } from '@nuxtjs/composition-api'
+import { defineComponent, useContext, useAsync, computed, ref, useRouter, useFetch } from '@nuxtjs/composition-api'
 
 export default defineComponent({
   middleware: 'auth',
@@ -186,10 +186,13 @@ export default defineComponent({
       iconUrl: "",
       coverUrl: ""
     })
-    useFetch(async() => {
-      user.value = await app.$userRepository.currentUser()
+    useAsync(async() => {
+      console.log("OK index")
+      const response = await app.$userRepository.currentUser()
+      console.log(response)
+      user.value = response
     })
-    const iconUrl = computed(() => user.value.iconUrl || require("~/assets/images/icons/account.png"))
+    const iconUrl = computed(() => user.value.iconUrl || require("~/assets/images/icons/icon.png"))
     const coverUrl = computed(() => user.value.coverUrl || "https://beiz.jp/images_P/black/black_00080.jpg")
     const onChangeFile = async (e: Event) => {
       const target = e.target as HTMLInputElement

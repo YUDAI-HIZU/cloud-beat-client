@@ -36,14 +36,8 @@
 
 <script lang="ts">
 import { defineComponent, useContext, ref, useAsync } from '@nuxtjs/composition-api'
-import AppMusicCard from '~/components/molecules/AppMusicCard.vue'
-import AppTopVisual from '~/components/organisms/AppTopVisual.vue'
 
 export default defineComponent({
-  components: {
-    AppMusicCard,
-    AppTopVisual,
-  },
   setup() {
     const { app } = useContext()
     const tracks = ref([])

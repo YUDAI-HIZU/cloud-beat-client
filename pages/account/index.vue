@@ -9,7 +9,7 @@
         <v-avatar size="56">
           <v-img
             alt="user"
-            :src="iconUrl"
+            :src="user.iconUrl"
           />
         </v-avatar>
         <p class="ml-3 mt-10">
@@ -129,9 +129,12 @@ export default defineComponent({
       coverUrl: ""
     })
     useFetch(async () => {
-      user.value = await app.$userRepository.currentUser()
+      console.log("OK edit")
+      const response = await app.$userRepository.currentUser()
+      console.log(response)
+      user.value = response
     })
-    const iconUrl = computed(() => user.value.iconUrl || require("~/assets/images/icons/account.png"))
+    const iconUrl = computed(() => user.value.iconUrl || require("~/assets/images/icons/icon.png"))
     const coverUrl = computed(() => user.value.coverUrl || "https://beiz.jp/images_P/black/black_00080.jpg")
     return {
       user,

@@ -42,7 +42,6 @@
 <script lang="ts">
 import { defineComponent, useContext, ref, useAsync, computed } from '@nuxtjs/composition-api'
 import { Ref } from '@vue/composition-api'
-import AudioVisual from 'vue-audio-visual'
 
 export default defineComponent({
   props: {

@@ -41,7 +41,6 @@ export default {
     '~/plugins/auth',
     '~/plugins/push',
     '~/plugins/repository.ts',
-    '~/plugins/audio.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -65,11 +64,6 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  },
-
-  generate: {
-    // choose to suit your project
-    interval: 2000,
   },
 
   env: {
