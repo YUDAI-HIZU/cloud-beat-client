@@ -2,7 +2,7 @@
   <v-card max-width="550px" class="mx-auto">
     <v-img
       height="200px"
-      :src="coverUrl"
+      :src="''"
     >
       <v-card-title class="white--text" style="margin-top: 100px;">
         <input
@@ -182,9 +182,7 @@ export default defineComponent({
       youtube: "",
       instagram: "",
       icon: null as File | null,
-      cover: null as File | null,
       iconUrl: "",
-      coverUrl: ""
     })
     useAsync(async() => {
       console.log("OK index")
@@ -193,7 +191,6 @@ export default defineComponent({
       user.value = response
     })
     const iconUrl = computed(() => user.value.iconUrl || require("~/assets/images/icons/icon.png"))
-    const coverUrl = computed(() => user.value.coverUrl || "https://beiz.jp/images_P/black/black_00080.jpg")
     const onChangeFile = async (e: Event) => {
       const target = e.target as HTMLInputElement
       const files = target.files
@@ -215,7 +212,6 @@ export default defineComponent({
       iconRef,
       user,
       iconUrl,
-      coverUrl,
       onChangeFile,
       onClickSave
     }

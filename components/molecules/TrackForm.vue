@@ -34,8 +34,29 @@
         </div>
         <div>
           <v-autocomplete
-            
+            chips
+            :items="genres"
+            item-text="name"
+            item-value="id"
+            v-model="input.genreID"
           ></v-autocomplete>
+        </div>
+        <div class="font-weight-bold mt-2">
+          Youtube URL
+        </div>
+        <div>
+          <v-text-field
+            v-model="input.youtubeLink"
+          ></v-text-field>
+        </div>
+        <div class="font-weight-bold mt-2">
+          詳細
+        </div>
+        <div>
+          <v-textarea
+            hint="255文字"
+            v-model="input.description"
+          ></v-textarea>
         </div>
       </v-card-text>
     </v-list-item>
@@ -59,9 +80,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useContext } from '@nuxtjs/composition-api'
+import { defineComponent, ref, useAsync, useContext } from '@nuxtjs/composition-api'
 import { Ref } from '@vue/composition-api'
-import { CreateTrackInput } from '~/apollo/model/generated'
+import { CreateTrackInput, Genre } from '~/apollo/model/generated'
 
 export default defineComponent({
   props: {
@@ -73,8 +94,15 @@ export default defineComponent({
     const { app } = useContext()
     const input: Ref<CreateTrackInput> = ref({
       title: "",
-      sound: props.audio as File | null,
-      thumbnail: null as File | null
+      audio: props.audio as File | null,
+      thumbnail: null as File | null,
+      description: "",
+      youtubeLink: "",
+      genreID: ""
+    })
+    const genres = ref([])
+    useAsync(async () => {
+      genres.value = await app.$genreRepository.genres()
     })
     const thumbnailUrl = ref(require('~/assets/images/icons/thumbnail.png'))
     const onChangeFile = async (e: Event) => {
@@ -86,6 +114,7 @@ export default defineComponent({
       }
     }
     const onClickSave = async () => {
+      console.log(input.value)
       try {
         const response = await app.$trackRepository.createTrack(input.value)
         console.log(response)
@@ -95,6 +124,7 @@ export default defineComponent({
     }
     return {
       input,
+      genres,
       thumbnailUrl,
       onChangeFile,
       onClickSave

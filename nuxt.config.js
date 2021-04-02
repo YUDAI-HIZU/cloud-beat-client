@@ -38,9 +38,10 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/audio',
     '~/plugins/auth',
     '~/plugins/push',
-    '~/plugins/repository.ts',
+    '~/plugins/repository'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

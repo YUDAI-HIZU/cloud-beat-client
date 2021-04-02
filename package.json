@@ -20,8 +20,7 @@
     "firebase": "^8.3.0",
     "graphql-tag": "^2.11.0",
     "nuxt": "^2.15.3",
-    "nuxt-i18n": "^6.21.0",
-    "vue-audio-visual": "^2.2.2"
+    "nuxt-i18n": "^6.21.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "1.21.2",
