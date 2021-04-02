@@ -25,7 +25,6 @@ export class UserRepository {
             instagram
             introduction
             iconUrl
-            coverUrl
           }
         }
       `,
@@ -35,7 +34,6 @@ export class UserRepository {
   }
 
   async currentUser(): Promise<User> {
-    console.log("get user curret ")
     const response = await this.client.query({
       query: gql`
         query currentUser {
@@ -51,7 +49,6 @@ export class UserRepository {
             instagram
             introduction
             iconUrl
-            coverUrl
             createdAt
             updatedAt
           }
@@ -92,7 +89,6 @@ export class UserRepository {
     instagram: String,
     introduction: String,
     icon: File,
-    cover: File
   }): Promise<User> {
     const response = await this.client.mutate({
       mutation: gql`
@@ -106,7 +102,6 @@ export class UserRepository {
           $instagram: String,
           $introduction: String,
           $icon: Upload,
-          $cover: Upload
         ) {
           updateUser(input: {
             displayName: $displayName
@@ -118,7 +113,6 @@ export class UserRepository {
             instagram: $instagram,
             introduction: $introduction
             icon: $icon
-            cover: $cover
           }) {
             id
             uid
@@ -131,7 +125,6 @@ export class UserRepository {
             instagram
             introduction
             iconUrl
-            coverUrl
           }
         }
       `,

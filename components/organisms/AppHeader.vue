@@ -1,5 +1,6 @@
 <template>
   <v-app-bar
+    class="mx-auto"
     color="black"
     fixed
     height="75"

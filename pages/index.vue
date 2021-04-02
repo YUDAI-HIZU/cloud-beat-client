@@ -10,7 +10,7 @@
     </v-col>
     <v-col>
       <v-row class="d-flex scroller flex-nowrap py-3">
-        <v-col v-for="track in tracks" :key="track.id" >
+        <v-col v-for="track in newReleaseTracks" :key="track.id" >
           <app-music-card :track="track" />
         </v-col>
       </v-row>
@@ -26,7 +26,7 @@
     </v-col>
     <v-col>
       <v-row class="d-flex scroller flex-nowrap py-3">
-        <v-col v-for="track in tracks" :key="track.id" >
+        <v-col v-for="track in picUpTracks" :key="track.id" >
           <app-music-card :track="track" />
         </v-col>
       </v-row>
@@ -36,17 +36,29 @@
 
 <script lang="ts">
 import { defineComponent, useContext, ref, useAsync } from '@nuxtjs/composition-api'
+import AppMusicCard from '~/components/molecules/AppMusicCard.vue'
+import AppTopVisual from '~/components/organisms/AppTopVisual.vue'
 
 export default defineComponent({
+  components: {
+    AppMusicCard,
+    AppTopVisual,
+  },
   setup() {
     const { app } = useContext()
-    const tracks = ref([])
+    const newReleaseTracks = ref([])
+    const picUpTracks = ref([])
     useAsync(async () => {
-      const response = await app.$trackRepository.tracks()
-      tracks.value = response.tracks
+      const response = await Promise.all([
+        app.$trackRepository.newReleaseTracks(),
+        app.$trackRepository.pickUpTracks()
+      ])
+      newReleaseTracks.value = response[0].newReleaseTracks
+      picUpTracks.value = response[1].pickUpTracks
     })
     return {
-      tracks
+      newReleaseTracks,
+      picUpTracks
     }
   }
 })

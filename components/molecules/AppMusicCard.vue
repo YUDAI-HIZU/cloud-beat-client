@@ -17,10 +17,10 @@
           fab
           icon
         >
-          <v-icon v-if="play" @click.stop="onClickStopAudio" x-large>
+          <v-icon v-if="playing" @click.stop="onClickStop" x-large>
             mdi-motion-pause-outline
           </v-icon>
-          <v-icon v-else @click.stop="onClickPlayAudio" x-large>
+          <v-icon v-else @click.stop="onClickPlay" x-large>
             mdi-motion-play-outline
           </v-icon>
         </v-btn>
@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import { defineComponent, useContext, ref, useAsync, computed } from '@nuxtjs/composition-api'
-import { Ref } from '@vue/composition-api'
+import { reactive, Ref } from '@vue/composition-api'
 
 export default defineComponent({
   props: {
@@ -51,30 +51,24 @@ export default defineComponent({
     }
   },
   setup(props, ctx) {
-    const play = ref(false)
+    const { app } = useContext()
     const thumbnailUrl = ref(props.track.thumbnailUrl ? props.track.thumbnailUrl : require('~/assets/images/icons/thumbnail.png'))
-    const audio: Ref<null | HTMLAudioElement> = ref(null)
     const onClickShow = () => {
-      console.log('OK')
+      // TODO: router push
     }
-    const onClickPlayAudio = () => {
-      if (!audio.value) {
-        audio.value = new Audio(props.track.soundUrl)
-      }
-      audio.value.play()
-      play.value = true
+    const playing = computed(() => props.track === app.$audio.track && app.$audio.playing)
+    const onClickPlay = () => {
+      app.$audio.set(props.track)
     }
-    const onClickStopAudio = () => {
-      if (!audio.value) return
-      audio.value.pause()
-      play.value = false
+    const onClickStop = () => {
+      app.$audio.stop()
     }
     return {
+      playing,
       thumbnailUrl,
-      play,
       onClickShow,
-      onClickPlayAudio,
-      onClickStopAudio
+      onClickPlay,
+      onClickStop
     }
   }
 })

@@ -1,8 +1,8 @@
 <template>
   <v-card max-width="900px" class="mx-auto py-4">
-    <template v-if="input.sound">
+    <template v-if="input.audio">
       <track-form
-        :audio="input.sound"
+        :audio="input.audio"
       />
     </template>
     <template v-else>
@@ -26,11 +26,14 @@ export default defineComponent({
   setup() {
     const input: Ref<CreateTrackInput> = ref({
       title: "",
-      sound: null as File | null,
-      thumbnail: null as File | null
+      audio: null as File | null,
+      thumbnail: null as File | null,
+      description: "",
+      youtubeLink: "",
+      genreID: "",
     })
     const uploadAudio = async (file: File) => {
-      input.value.sound = file
+      input.value.audio = file
     }
     return {
       input,

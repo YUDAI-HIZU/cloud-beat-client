@@ -9,14 +9,14 @@ export class TrackRepository {
     this.client = client
   }
 
-  async tracks(): Promise<Track[]> {
+  async newReleaseTracks(): Promise<Track[]> {
     const response = await this.client.query({
       query: gql`
-        query tracks {
-          tracks {
+        query newReleaseTracks {
+          newReleaseTracks {
             id
             title
-            soundUrl
+            audioUrl
             thumbnailUrl
             user {
               displayName
@@ -29,19 +29,48 @@ export class TrackRepository {
     return response.data
   }
 
-  async createTrack(variables: { title: string, sound: File, thumbnail: File }): Promise<Track> {
+  async pickUpTracks(): Promise<Track[]> {
+    const response = await this.client.query({
+      query: gql`
+        query pickUpTracks {
+          pickUpTracks {
+            id
+            title
+            audioUrl
+            thumbnailUrl
+            user {
+              displayName
+              iconUrl
+            }
+          }
+        }
+      `
+    })
+    return response.data
+  }
+
+  async createTrack(variables: { title: string, audio: File, thumbnail: File, description: string, youtubeLink: string, genreID: number }): Promise<Track> {
     const response = await this.client.mutate({
       mutation: gql`
-        mutation createTrack($title: String!, $sound: Upload!, $thumbnail: Upload) {
+        mutation createTrack($title: String!, $audio: Upload!, $thumbnail: Upload, $description: String!, $youtubeLink: String, $genreID: ID!) {
           createTrack(input: {
             title: $title,
-            sound: $sound,
-            thumbnail: $thumbnail
+            audio: $audio,
+            thumbnail: $thumbnail,
+            description: $description,
+            youtubeLink: $youtubeLink,
+            genreID: $genreID
           }) {
             id
             title
-            soundUrl
+            audioUrl
             thumbnailUrl
+            description
+            youtubeLink
+            genre {
+              id
+              name
+            }
           }
         }
       `,
@@ -52,18 +81,18 @@ export class TrackRepository {
     return response.data
   }
 
-  async updateTrack(variables: { title: string, sound: File, thumbnail: File }): Promise<Track> {
+  async updateTrack(variables: { title: string, audio: File, thumbnail: File }): Promise<Track> {
     const response = await this.client.mutate({
       mutation: gql`
-        mutation updateTrack($title: String!, $sound: Upload $thumbnail: Upload) {
+        mutation updateTrack($title: String!, $audio: Upload $thumbnail: Upload) {
           createTrack(input: {
             title: $title,
-            sound: $sound,
+            audio: $audio,
             thumbnail: $thumbnail
           }) {
             id
             title
-            soundUrl
+            audioUrl
             thumbnailUrl
           }
         }

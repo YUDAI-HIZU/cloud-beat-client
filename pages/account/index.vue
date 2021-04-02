@@ -1,21 +1,75 @@
 <template>
-  <v-card max-width="550px" class="mx-auto">
+
+  <v-card color="black" class="mx-auto rounded-0">
     <v-img
       height="200px"
-      :src="coverUrl"
-      :lazy-src="coverUrl"
+      gradient="to top, rgba(0,0,0,0.9), rgba(0,0,0,0.2)"
     >
-      <v-card-title class="white--text" style="margin-top: 100px;">
-        <v-avatar size="56">
+      <v-col class="d-flex pa-8">
+        <v-avatar size="140">
           <v-img
             alt="user"
-            :src="user.iconUrl"
+            :src="iconUrl"
           />
         </v-avatar>
-        <p class="ml-3 mt-10">
-          <strong>{{ user.displayName }}</strong>
-        </p>
-      </v-card-title>
+        <v-col>
+          <h1 class="ml-5 font-weight-bold text-h4">
+            {{user.displayName}}
+          </h1>
+          <div class="mb-2 ml-5 mt-2">
+        <v-btn
+          class="mr-2"
+          color="#1DA1F2"
+          small
+          :disabled="!user.twitter"
+          dark
+          fab
+        >
+          <v-icon>mdi-twitter</v-icon>
+        </v-btn>
+        <v-btn
+          class="mr-2"
+          color="#FE5000"
+          small
+          :disabled="!user.soundCloud"
+          dark
+          fab
+        >
+          <v-icon>mdi-soundcloud</v-icon>
+        </v-btn>
+        <v-btn
+          class="mr-2"
+          color="#3B5998"
+          small
+          :disabled="!user.facebook"
+          dark
+          fab
+        >
+          <v-icon>mdi-facebook</v-icon>
+        </v-btn>
+        <v-btn
+          class="mr-2"
+          color="#FF0000"
+          small
+          :disabled="!user.youtube"
+          dark
+          fab
+        >
+          <v-icon>mdi-youtube</v-icon>
+        </v-btn>
+        <v-btn
+          class="mr-2"
+          color="#D93177"
+          :disabled="!user.instagram"
+          small
+          dark
+          fab
+        >
+          <v-icon>mdi-instagram</v-icon>
+        </v-btn>
+      </div>
+        </v-col>
+      </v-col>
     </v-img>
     <v-card-actions class="mt-2">
       <v-spacer />
@@ -126,20 +180,14 @@ export default defineComponent({
       youtube: "",
       instagram: "",
       iconUrl: "",
-      coverUrl: ""
     })
     useFetch(async () => {
-      console.log("OK edit")
-      const response = await app.$userRepository.currentUser()
-      console.log(response)
-      user.value = response
+      user.value = await app.$userRepository.currentUser()
     })
     const iconUrl = computed(() => user.value.iconUrl || require("~/assets/images/icons/icon.png"))
-    const coverUrl = computed(() => user.value.coverUrl || "https://beiz.jp/images_P/black/black_00080.jpg")
     return {
       user,
       iconUrl,
-      coverUrl
     }
   }
 })
