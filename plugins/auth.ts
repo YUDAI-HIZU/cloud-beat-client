@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { Plugin, Context } from '@nuxt/types'
+import { Base64 } from 'js-base64'
 import firebase  from '~/plugins/firebase'
 
 type State = {
@@ -26,6 +27,15 @@ class AuthComponent {
     return this.state.idToken
   }
 
+  get user() {
+    const idToken = this.idToken
+    if (idToken) {
+      const part = idToken.split('.')[1]
+      const claims = JSON.parse(Base64.decode(part))
+      return claims
+    }
+  }
+
   initFromCookie() {
     const idToken = this.ctx.app.$cookies.get(this.cookieName)
     this.state.idToken = idToken
@@ -33,34 +43,44 @@ class AuthComponent {
 
   async signUp(email: string, pasword: string, displayName: string) {
     const response = await this.auth.createUserWithEmailAndPassword(email, pasword)
-    if (response.user) {
-      const uid = response.user.uid
+    const user = response.user
+    if (user) {
+      const uid = user.uid
       await this.ctx.app.$userRepository.createUser({ displayName, uid })
       await this.sendEmailVerification()
     }
   }
 
-  async signInWithProvider(providerName: string) {
-    const provider = this.getProvider(providerName)
-    if (provider) {
-      const response = await this.auth.signInWithPopup(provider)
-      if (response.additionalUserInfo?.isNewUser) {
-        const uid = response.user?.uid
-        const displayName = response.user?.displayName
-        await this.ctx.app.$userRepository.createUser({ displayName, uid })
-      }
-      this.auth.onAuthStateChanged(async (user) => {
-        const idToken = await user?.getIdToken(/* forceRefresh */ true)
+  async signInWithProvider(provider: firebase.auth.AuthProvider) {
+    // NOTE: sign up or sign in
+    const response = await this.auth.signInWithPopup(provider)
+    const userInfo = response.additionalUserInfo
+    const user = response.user
+
+    if (!userInfo || !user) return
+
+    // NOTE: create user when new user
+    if (userInfo.isNewUser) {
+      const uid = user.uid
+      const displayName = user.displayName
+      await this.ctx.app.$userRepository.createUser({ displayName, uid })
+    }
+
+    // NOTE: sign in again because backend user id was set to claims
+    this.auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        const idToken = await user.getIdToken(true)
         this.ctx.app.$cookies.set(this.cookieName, idToken, { path: '/', httpOnly: false })
         this.state.idToken = idToken
-      })
-    }
+      }
+    })
   }
 
   async signIn(email: string, password: string) {
     const response = await this.auth.signInWithEmailAndPassword(email, password)
-    if (response.user?.emailVerified) {
-      const idToken = await response.user?.getIdToken(/* forceRefresh */ true)
+    const user = response.user
+    if (user && user.emailVerified) {
+      const idToken = await user.getIdToken()
       this.ctx.app.$cookies.set(this.cookieName, idToken, { path: '/', httpOnly: false })
       this.state.idToken = idToken
     }
@@ -72,15 +92,19 @@ class AuthComponent {
     this.state.idToken = null
   }
 
-  getProvider(providerName: String) {
-    switch (providerName) {
-      case 'google':
-        return new firebase.auth.GoogleAuthProvider()
-      case 'twitter':
-        return new firebase.auth.TwitterAuthProvider()
-      case 'facebook':
-        return new firebase.auth.FacebookAuthProvider()
-    }
+  async signInWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider()
+    await this.signInWithProvider(provider)
+  }
+
+  async signInWithTwitter() {
+    const provider = new firebase.auth.TwitterAuthProvider()
+    await this.signInWithProvider(provider)
+  }
+
+  async signInWithFacebook() {
+    const provider = new firebase.auth.FacebookAuthProvider()
+    await this.signInWithProvider(provider)
   }
 
   async sendEmailVerification() {

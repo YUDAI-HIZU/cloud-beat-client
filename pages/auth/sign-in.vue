@@ -35,7 +35,7 @@
         width="100%"
         large
         dark
-        @click="signInWithProvider('twitter')"
+        @click="signInWithTwitter"
       >
         <v-icon right dark style="position: absolute; left: 0;">mdi-twitter</v-icon>
         Twitter
@@ -48,7 +48,7 @@
         width="100%"
         large
         dark
-        @click="signInWithProvider('facebook')"
+        @click="signInWithFacebook"
       >
         <v-icon right dark style="position: absolute; left: 0;">mdi-facebook</v-icon>
         Facebook
@@ -61,7 +61,7 @@
         width="100%"
         large
         style="color: black;"
-        @click="signInWithProvider('google')"
+        @click="signInWithGoogle"
       >
         <img src="~assets/images/icons/google.png" alt="google-logo" height="20" width="20" style="position: absolute; left: 5px;">
         Sign in with Google
@@ -102,9 +102,31 @@ export default defineComponent({
         console.error(error)
       }
     }
-    const signInWithProvider = async (providerName: string) => {
+    const signInWithGoogle = async () => {
       try {
-        await app.$auth.signInWithProvider(providerName)
+        await app.$auth.signInWithGoogle()
+        app.$toast.success('ログインしました')
+        router.push('/')
+      } catch(error) {
+        app.$toast.error(error.message)
+        console.error(error)
+      }
+    }
+
+    const signInWithTwitter = async () => {
+      try {
+        await app.$auth.signInWithTwitter()
+        app.$toast.success('ログインしました')
+        router.push('/')
+      } catch(error) {
+        app.$toast.error(error.message)
+        console.error(error)
+      }
+    }
+
+    const signInWithFacebook = async () => {
+      try {
+        await app.$auth.signInWithFacebook()
         app.$toast.success('ログインしました')
         router.push('/')
       } catch(error) {
@@ -115,7 +137,9 @@ export default defineComponent({
     return {
       state,
       onClickSignIn,
-      signInWithProvider
+      signInWithGoogle,
+      signInWithTwitter,
+      signInWithFacebook
     }
   }
 })
