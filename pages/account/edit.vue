@@ -185,9 +185,7 @@ export default defineComponent({
       iconUrl: "",
     })
     useAsync(async() => {
-      console.log("OK index")
       const response = await app.$userRepository.currentUser()
-      console.log(response)
       user.value = response
     })
     const iconUrl = computed(() => user.value.iconUrl || require("~/assets/images/icons/icon.png"))

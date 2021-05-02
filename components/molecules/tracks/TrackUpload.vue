@@ -6,10 +6,10 @@
         width="200"
         :src="require('~/assets/images/icons/upload.png')"
       />
-      <h1 class="font-weight-bold text-h6 text-center">動画をアップロードしてください</h1>
+      <h1 class="font-weight-bold text-h6 text-center">音源をアップロードしてください</h1>
       <p class="text-center mt-3">
         自分の作品を共有してユーザーにアプローチしましょう。<br>
-        アップロードした音源はここに表示されます。
+        アップロードした音源は自分の音源で確認できます。
       </p>
     </v-card-text>
     <v-card-actions>

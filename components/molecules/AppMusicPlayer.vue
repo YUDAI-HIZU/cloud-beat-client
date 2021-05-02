@@ -23,26 +23,18 @@
             <v-list-item-title>{{ track.title }}</v-list-item-title>
             <v-list-item-subtitle>{{ track.user.displayName }}</v-list-item-subtitle>
           </v-list-item-content>
-            <v-btn fab>
-              <v-icon>mdi-rewind</v-icon>
-            </v-btn>
-             <v-btn fab>
-              <v-icon
-                v-if="playing"
-                @click="onClickStop"
-              >
-                mdi-pause
-              </v-icon>
-              <v-icon
-                v-else
-                @click="onClickPlay"
-              >
-                mdi-play
-              </v-icon>
-            </v-btn>
-            <v-btn fab>
-              <v-icon>mdi-fast-forward</v-icon>
-            </v-btn>
+          <v-btn>
+            <v-icon>mdi-rewind</v-icon>
+          </v-btn>
+          <v-btn v-if="playing" @click="onClickStop">
+            <v-icon>mdi-pause</v-icon>
+          </v-btn>
+          <v-btn v-else @click="onClickPlay">
+            <v-icon>mdi-play</v-icon>
+          </v-btn>
+          <v-btn>
+            <v-icon>mdi-fast-forward</v-icon>
+          </v-btn>
         </v-list-item>
       </v-list>
     </v-card>

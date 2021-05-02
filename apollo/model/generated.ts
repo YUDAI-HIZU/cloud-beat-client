@@ -9,22 +9,29 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  Time: any;
   Upload: any;
+  Time: any;
 };
 
 
-export type Track = {
-  __typename?: 'Track';
-  id: Scalars['ID'];
+export type CreatePlaylistInput = {
   title: Scalars['String'];
-  thumbnailUrl?: Maybe<Scalars['String']>;
-  audioUrl: Scalars['String'];
-  description: Scalars['String'];
-  youtubeLink: Scalars['String'];
-  user: User;
-  genre: Genre;
+  trackIDs?: Maybe<Array<Scalars['ID']>>;
 };
+
+export type CreateTrackInput = {
+  title: Scalars['String'];
+  audio: Scalars['Upload'];
+  thumbnail?: Maybe<Scalars['Upload']>;
+  description: Scalars['String'];
+  youtubeLink?: Maybe<Scalars['String']>;
+  genreID: Scalars['ID'];
+};
+
+export type DeleteTrackInput = {
+  id: Scalars['ID'];
+};
+
 
 export type DeviceToken = {
   __typename?: 'DeviceToken';
@@ -33,29 +40,32 @@ export type DeviceToken = {
   Token: Scalars['String'];
 };
 
-export type UpdateTrackInput = {
-  title: Scalars['String'];
-  audio?: Maybe<Scalars['Upload']>;
-  thumbnail?: Maybe<Scalars['Upload']>;
-  description: Scalars['String'];
-  youtube_link?: Maybe<Scalars['String']>;
-  genre_id: Scalars['ID'];
+export type CreateExternalLinkInput = {
+  twitter?: Maybe<Scalars['String']>;
+  soundCloud?: Maybe<Scalars['String']>;
+  facebook?: Maybe<Scalars['String']>;
+  youtube?: Maybe<Scalars['String']>;
+  instagram?: Maybe<Scalars['String']>;
+};
+
+
+export type Genre = {
+  __typename?: 'Genre';
+  id: Scalars['ID'];
+  name: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createExternalLink: ExternalLink;
-  createMusicVideo: MusicVideo;
+  createExternalLink?: Maybe<ExternalLink>;
   createPlaylist: Playlist;
   createPlaylistSource: PlaylistSource;
   createTrack: Track;
   createUser: User;
   updateExternalLink: ExternalLink;
-  updateTrack: Track;
   updateUser: User;
-  deleteMusicVideo: MusicVideo;
   deletePlaylist: Playlist;
-  deletePlaylistSource: Array<PlaylistSource>;
+  deletePlaylistSource: PlaylistSource;
   deleteTrack: Track;
   deleteUser: User;
 };
@@ -63,11 +73,6 @@ export type Mutation = {
 
 export type MutationCreateExternalLinkArgs = {
   input: CreateExternalLinkInput;
-};
-
-
-export type MutationCreateMusicVideoArgs = {
-  input: CreateMusicVideoInput;
 };
 
 
@@ -96,18 +101,8 @@ export type MutationUpdateExternalLinkArgs = {
 };
 
 
-export type MutationUpdateTrackArgs = {
-  input: UpdateTrackInput;
-};
-
-
 export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
-};
-
-
-export type MutationDeleteMusicVideoArgs = {
-  input: DeleteMusicVideoInput;
 };
 
 
@@ -125,6 +120,20 @@ export type MutationDeleteTrackArgs = {
   input: DeleteTrackInput;
 };
 
+export type DeletePlaylistSourceInput = {
+  playlistID: Scalars['ID'];
+  trackID: Scalars['ID'];
+};
+
+export type ExternalLink = {
+  __typename?: 'ExternalLink';
+  twitter?: Maybe<Scalars['String']>;
+  soundCloud?: Maybe<Scalars['String']>;
+  facebook?: Maybe<Scalars['String']>;
+  youtube?: Maybe<Scalars['String']>;
+  instagram?: Maybe<Scalars['String']>;
+};
+
 export type Playlist = {
   __typename?: 'Playlist';
   id: Scalars['ID'];
@@ -133,33 +142,8 @@ export type Playlist = {
   tracks: Array<Track>;
 };
 
-export type CreateMusicVideoInput = {
-  text: Scalars['String'];
-  video: Scalars['Upload'];
-};
-
-export type UpdateUserInput = {
-  icon?: Maybe<Scalars['Upload']>;
-  displayName?: Maybe<Scalars['String']>;
-  webUrl?: Maybe<Scalars['String']>;
-  introduction?: Maybe<Scalars['String']>;
-};
-
-
-export type ExternalLink = {
-  __typename?: 'ExternalLink';
-  user: User;
-  twitter?: Maybe<Scalars['String']>;
-  soundCloud?: Maybe<Scalars['String']>;
-  facebook?: Maybe<Scalars['String']>;
-  youtube?: Maybe<Scalars['String']>;
-  instagram?: Maybe<Scalars['String']>;
-};
-
-export type PlaylistSource = {
-  __typename?: 'PlaylistSource';
-  playlistID: Scalars['ID'];
-  trackID: Scalars['ID'];
+export type DeletePlaylistInput = {
+  id: Scalars['ID'];
 };
 
 export type User = {
@@ -170,69 +154,6 @@ export type User = {
   webUrl?: Maybe<Scalars['String']>;
   introduction?: Maybe<Scalars['String']>;
   iconUrl?: Maybe<Scalars['String']>;
-};
-
-export type CreatePlaylistSourceInput = {
-  playlistID: Scalars['ID'];
-  trackID: Scalars['ID'];
-};
-
-export type CreatePlaylistInput = {
-  title: Scalars['String'];
-  trackIDs?: Maybe<Array<Scalars['ID']>>;
-};
-
-export type DeletePlaylistInput = {
-  id: Scalars['ID'];
-};
-
-export type DeleteTrackInput = {
-  id: Scalars['ID'];
-};
-
-export type Genre = {
-  __typename?: 'Genre';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-};
-
-export type CreateExternalLinkInput = {
-  twitter?: Maybe<Scalars['String']>;
-  soundCloud?: Maybe<Scalars['String']>;
-  facebook?: Maybe<Scalars['String']>;
-  youtube?: Maybe<Scalars['String']>;
-  instagram?: Maybe<Scalars['String']>;
-};
-
-export type CreateUserInput = {
-  uid: Scalars['String'];
-  displayName: Scalars['String'];
-};
-
-export type UpdateExternalLinkInput = {
-  twitter?: Maybe<Scalars['String']>;
-  soundCloud?: Maybe<Scalars['String']>;
-  facebook?: Maybe<Scalars['String']>;
-  youtube?: Maybe<Scalars['String']>;
-  instagram?: Maybe<Scalars['String']>;
-};
-
-export type DeleteMusicVideoInput = {
-  id: Scalars['ID'];
-};
-
-export type DeletePlaylistSourceInput = {
-  playlistID: Scalars['ID'];
-  trackIDs: Array<Scalars['ID']>;
-};
-
-
-export type MusicVideo = {
-  __typename?: 'MusicVideo';
-  id: Scalars['ID'];
-  user: User;
-  text: Scalars['String'];
-  videoUrl: Scalars['String'];
 };
 
 export type Query = {
@@ -246,7 +167,7 @@ export type Query = {
   newReleaseTracks: Array<Track>;
   pickUpTracks: Array<Track>;
   user: User;
-  me: User;
+  currentUser: User;
 };
 
 
@@ -279,11 +200,45 @@ export type QueryUserArgs = {
   id: Scalars['ID'];
 };
 
-export type CreateTrackInput = {
+export type CreatePlaylistSourceInput = {
+  playlistID: Scalars['ID'];
+  trackID: Scalars['ID'];
+};
+
+export type Track = {
+  __typename?: 'Track';
+  id: Scalars['ID'];
   title: Scalars['String'];
-  audio: Scalars['Upload'];
-  thumbnail?: Maybe<Scalars['Upload']>;
+  thumbnailUrl?: Maybe<Scalars['String']>;
+  audioUrl: Scalars['String'];
   description: Scalars['String'];
-  youtubeLink?: Maybe<Scalars['String']>;
-  genreID: Scalars['ID'];
+  youtubeLink: Scalars['String'];
+  user: User;
+  genre: Genre;
+};
+
+export type UpdateExternalLinkInput = {
+  twitter?: Maybe<Scalars['String']>;
+  soundCloud?: Maybe<Scalars['String']>;
+  facebook?: Maybe<Scalars['String']>;
+  youtube?: Maybe<Scalars['String']>;
+  instagram?: Maybe<Scalars['String']>;
+};
+
+export type UpdateUserInput = {
+  icon?: Maybe<Scalars['Upload']>;
+  displayName?: Maybe<Scalars['String']>;
+  webUrl?: Maybe<Scalars['String']>;
+  introduction?: Maybe<Scalars['String']>;
+};
+
+export type PlaylistSource = {
+  __typename?: 'PlaylistSource';
+  playlistID: Scalars['ID'];
+  trackID: Scalars['ID'];
+};
+
+export type CreateUserInput = {
+  uid: Scalars['String'];
+  displayName: Scalars['String'];
 };

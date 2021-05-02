@@ -9,45 +9,36 @@
     <v-toolbar-title>
       <nuxt-link to="/">
         <img
-          class="mt-1"
+          class="mt-1 d-none d-sm-block d-md-block d-lg-block"
           :src="require('~/assets/images/logos/main.png')"
+          height="60"
+        />
+        <img
+          class="mt-1 d-xs-block d-sm-none d-md-none d-lg-none"
+          :src="require('~/assets/images/logos/sub.png')"
           height="60"
         />
       </nuxt-link>
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <template v-if="authenticated">
-      <app-account-menu
-        v-on:onClickSignOut="onClickSignOut"
-      />
+      <app-account-menu v-on:onClickSignOut="onClickSignOut" />
     </template>
     <template v-else>
-      <v-toolbar-title class="mr-2 pc">
+      <v-toolbar-title class="mr-2">
         <v-btn class="text-capitalize" to="/auth/sign-up" text ><strong>新規登録</strong></v-btn>
         <v-btn class="text-capitalize" to="/auth/sign-in" color="secondary" ><strong>ログイン</strong></v-btn>
       </v-toolbar-title>
     </template>
-    <v-toolbar-title class="mobile">
-      <v-btn icon class="mr-2">
-        <v-app-bar-nav-icon @click.stop="onClickMenu"></v-app-bar-nav-icon>
-      </v-btn>
-    </v-toolbar-title>
-    <app-navigation
-      :drawer="drawer"
-      :authenticated="authenticated"
-      v-on:onClickMenu="onClickMenu"
-      v-on:onClickSignOut="onClickSignOut"
-    />
   </v-app-bar>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, useContext, ref, useRoute, useRouter } from '@nuxtjs/composition-api'
-import AppNavigation from '../atoms/AppNavigation.vue'
 import AppAccountMenu from '../atoms/AppAccountMenu.vue'
 
 export default defineComponent({
-  components: { AppNavigation, AppAccountMenu },
+  components: { AppAccountMenu },
   setup(_, ctx) {
     const { app } = useContext()
     const router = useRouter()

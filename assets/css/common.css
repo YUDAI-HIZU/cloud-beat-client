@@ -40,6 +40,14 @@
   color: rgba(0, 0, 0, 0) !important;
 }
 
+#__layout .v-slide-group__prev {
+  display: none !important;
+}
+
+#__layout .v-toolbar__content, .v-toolbar__extension {
+  padding: 4px !important;
+}
+
 .scroller {
   overflow-x: auto;
 }

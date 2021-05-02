@@ -9,6 +9,23 @@ export class TrackRepository {
     this.client = client
   }
 
+  async tracksByUserID(variables: { userID: number }): Promise<Track[]> {
+    const response = await this.client.query({
+      query: gql`
+        query tracksByUserID($userID: ID!) {
+          tracksByUserID(userID: $userID) {
+            id
+            title
+            audioUrl
+            thumbnailUrl
+          }
+        }
+      `,
+      variables
+    })
+    return response.data
+  }
+
   async newReleaseTracks(): Promise<Track[]> {
     const response = await this.client.query({
       query: gql`

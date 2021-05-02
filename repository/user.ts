@@ -42,20 +42,13 @@ export class UserRepository {
             uid
             displayName
             webUrl
-            twitter
-            soundCloud
-            facebook
-            youtube
-            instagram
             introduction
             iconUrl
-            createdAt
-            updatedAt
           }
         }
       `
     })
-    return response.data.currentUser
+    return response.data
   }
 
   async createUser(variables: { displayName: string, uid: string }): Promise<User> {
