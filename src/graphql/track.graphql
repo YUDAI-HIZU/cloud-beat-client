@@ -1,0 +1,25 @@
+query newReleaseTracks {
+  newReleaseTracks {
+    id
+    title
+    audioUrl
+    thumbnailUrl
+    user {
+      displayName
+      iconUrl
+    }
+  }
+}
+
+query pickUpTracks {
+  pickUpTracks {
+    id
+    title
+    audioUrl
+    thumbnailUrl
+    user {
+      displayName
+      iconUrl
+    }
+  }
+}
