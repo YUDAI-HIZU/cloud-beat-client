@@ -1,0 +1,56 @@
+query user($id: ID!) {
+  user(id: $id) {
+    id
+    uid
+    displayName
+    webUrl
+    introduction
+    iconUrl
+  }
+}
+
+query currentUser {
+  currentUser {
+    id
+    uid
+    displayName
+    webUrl
+    introduction
+    iconUrl
+  }
+}
+
+mutation createUser(
+  $displayName: String!,
+  $uid: String!
+) {
+  createUser(input: {
+    displayName: $displayName
+    uid: $uid
+  }) {
+    id
+    uid
+    displayName
+  }
+}
+
+mutation updateUser(
+  $displayName: String,
+  $webUrl: String,
+  $introduction: String,
+  $icon: Upload,
+) {
+  updateUser(input: {
+    displayName: $displayName
+    webUrl: $webUrl
+    introduction: $introduction
+    icon: $icon
+  }) {
+    id
+    uid
+    displayName
+    webUrl
+    introduction
+    iconUrl
+  }
+}

@@ -1,0 +1,9 @@
+query externalLinkByUserID($userID: ID!) {
+  externalLinkByUserID(userID: $userID) {
+    twitter
+    soundCloud
+    facebook
+    youtube
+    instagram
+  }
+}
